@@ -16,7 +16,7 @@ class Employee extends Equatable {
   final String firstName;
   final String lastName;
   final String? middleName;
-  final String? degreeAbbrev;
+  final String degreeAbbrev;
   final String? rank;
   final String photoLink;
   final List<String>? academicDepartment;
