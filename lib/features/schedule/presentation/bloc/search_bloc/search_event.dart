@@ -1,6 +1,3 @@
-import '../../../domain/entities/employee.dart';
-import '../../../domain/entities/group.dart';
-
 abstract class SearchEvent {
   const SearchEvent();
 }
