@@ -21,11 +21,11 @@ const _cachedCurrentWeek = 'cachedCurrentWeek';
 abstract class ScheduleLocalDataSource {
   Future<ScheduleModel> getGroupSchedule(String groupNumber);
 
-  Future<void> cachedGroupSchedule(ScheduleModel schedule, String groupNumber);
+  Future<void> cachedGroupSchedule(ScheduleModel schedule);
 
   Future<ScheduleModel> getEmployeeSchedule(String urlId);
 
-  Future<void> cachedEmployeeSchedule(ScheduleModel schedule, String urlId);
+  Future<void> cachedEmployeeSchedule(ScheduleModel schedule);
 
   Future<List<GroupModel>> getGroupList();
 
@@ -61,10 +61,9 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   @override
   Future<void> cachedGroupSchedule(
     ScheduleModel schedule,
-    String groupNumber,
   ) async {
     await sharedPreferences.setString(
-      '$_cachedGroupSchedule$groupNumber',
+      '$_cachedGroupSchedule${schedule.studentGroupDto!.name}',
       json.encode(schedule.toJson()),
     );
   }
@@ -77,10 +76,9 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   @override
   Future<void> cachedEmployeeSchedule(
     ScheduleModel schedule,
-    String urlId,
   ) async {
     await sharedPreferences.setString(
-      '$_cachedEmployeeSchedule$urlId',
+      '$_cachedEmployeeSchedule${schedule.employeeDto!.urlId}',
       json.encode(schedule.toJson()),
     );
   }
