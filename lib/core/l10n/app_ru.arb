@@ -1,0 +1,12 @@
+{
+  "courseNumber": "{number} курс",
+
+  "addingSchedule": "Добавление расписания",
+  "groups": "Группы",
+  "teachers": "Преподаватели",
+  "search": "Поиск",
+  "course": "курс",
+  "foundedGroups": "{count, plural, =0{Найдено {count} групп} one{Найдена {count} группа} few{Найдено {count} группы} many{Найдено {count} групп} other{Найдено {count} групп}}",
+  "foundedTeachers": "{count, plural, =0{Найдено {count} преподавателей} one{Найден {count} преподаватель} few{Найдено {count} преподавателя} many{Найдено {count} преподавателей} other{Найдено {count} преподавателей}}",
+  "searchEmpty": "Не удалось загрузить расписание\nПотяните вниз, чтобы обновить"
+}
