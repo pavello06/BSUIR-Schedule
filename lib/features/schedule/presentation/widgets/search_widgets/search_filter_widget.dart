@@ -54,7 +54,8 @@ class SearchFilterWidget extends StatelessWidget {
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         ),
-        child: Padding(
+        child: Container(
+          color: Colors.transparent,
           padding: EdgeInsets.symmetric(vertical: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

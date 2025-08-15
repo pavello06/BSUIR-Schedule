@@ -9,6 +9,6 @@
   "foundedGroups": "{count, plural, =0{{count} groups found} one{{count} group found} other{{count} groups found}}",
   "foundedTeachers": "{count, plural, =0{{count} teachers found} one{{count} teacher found} other{{count} teachers found}}",
   "searchEmpty": "Couldn't load schedule\nPull down to update",
-  "searchSuccess": "The data has not been uploaded",
+  "searchSuccess": "The data has been uploaded",
   "searchError": "The data has not been uploaded"
 }

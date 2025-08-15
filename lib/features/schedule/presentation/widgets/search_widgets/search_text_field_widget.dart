@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/extensions/build_context_extension.dart';
+import '../../../../../core/themes/app_colors.dart';
 import '../../bloc/search_bloc/search_bloc.dart';
 import '../../bloc/search_bloc/search_event.dart';
 import '../../bloc/search_bloc/search_state.dart';
@@ -22,9 +23,18 @@ class SearchTextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: textEditingController,
-      decoration: InputDecoration(hintText: context.locale.search),
+      decoration: InputDecoration(
+        hintText: context.locale.search,
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: AppColors.primaryColor),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
+        ),
+      ),
       onChanged: (query) => _search(context, query),
       onSubmitted: (query) => _search(context, query),
+      cursorColor: AppColors.primaryColor,
     );
   }
 

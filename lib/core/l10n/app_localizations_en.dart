@@ -56,7 +56,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchEmpty => 'Couldn\'t load schedule\nPull down to update';
 
   @override
-  String get searchSuccess => 'The data has not been uploaded';
+  String get searchSuccess => 'The data has been uploaded';
 
   @override
   String get searchError => 'The data has not been uploaded';

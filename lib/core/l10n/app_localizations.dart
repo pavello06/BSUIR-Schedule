@@ -155,7 +155,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchSuccess.
   ///
   /// In en, this message translates to:
-  /// **'The data has not been uploaded'**
+  /// **'The data has been uploaded'**
   String get searchSuccess;
 
   /// No description provided for @searchError.
