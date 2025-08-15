@@ -51,30 +51,30 @@ class SearchPage extends StatelessWidget {
   Widget processState(BuildContext context, SearchState state) {
     Widget widgetForGroup = Container(), widgetForEmployee = Container();
 
-    if (state is SearchInitialState) {
+    if (state is InitialState) {
       context.read<SearchBloc>().add(GetListsEvent());
-    } else if (state is SearchLoadingState) {
+    } else if (state is LoadingState) {
       widgetForGroup = getLoadingListWidget(
         context,
-        state as SearchWithListsState,
+        state as WithListsState,
         true,
       );
       widgetForEmployee = getLoadingListWidget(context, state, false);
-    } else if (state is SearchLoadedState) {
+    } else if (state is LoadedState) {
       widgetForGroup = getListWidget(
         context,
-        state as SearchWithListsState,
+        state as WithListsState,
         true,
       );
       widgetForEmployee = getListWidget(context, state, false);
-    } else if (state is SearchEmptyState) {
+    } else if (state is EmptyState) {
       final widget = getEmptyWidget(context);
 
       widgetForGroup = widget;
       widgetForEmployee = widget;
     }
 
-    if (state is SearchLoadedState &&
+    if (state is LoadedState &&
         state.hasError != null &&
         !state.hasError!) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -84,10 +84,10 @@ class SearchPage extends StatelessWidget {
           context.locale.searchSuccess,
         );
       });
-    } else if (state is SearchLoadedState &&
+    } else if (state is LoadedState &&
             state.hasError != null &&
             state.hasError! ||
-        state is SearchEmptyState) {
+        state is EmptyState) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         DialogUtil.showSnackBar(
           context,
@@ -120,12 +120,12 @@ class SearchPage extends StatelessWidget {
 
   Widget getLoadingListWidget(
     BuildContext context,
-    SearchWithListsState state,
+    WithListsState state,
     bool isGroup,
   ) {
     return Stack(
       children: [
-        if ((state as SearchLoadingState).hasData)
+        if ((state as LoadingState).hasData)
           getListWidget(context, state, isGroup),
         Positioned(
           top: 40,
@@ -144,7 +144,7 @@ class SearchPage extends StatelessWidget {
 
   Widget getListWidget(
     BuildContext context,
-    SearchWithListsState state,
+    WithListsState state,
     bool isGroup,
   ) {
     return Column(

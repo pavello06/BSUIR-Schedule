@@ -27,7 +27,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     required this.updateEmployeeList,
     required this.searchGroupList,
     required this.searchEmployeeList,
-  }) : super(SearchInitialState()) {
+  }) : super(InitialState()) {
     on<GetListsEvent>(_onGetLists);
     on<UpdateListsEvent>(_onUpdateLists);
     on<SearchGroupListEvent>(_onSearchGroupList);
@@ -44,11 +44,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Future<void> _getOrUpdateLists(bool isGet, Emitter<SearchState> emit) async {
     emit(
-      SearchLoadingState(
-        state: state is SearchWithListsState
-            ? state as SearchWithListsState
+      LoadingState(
+        state: state is WithListsState
+            ? state as WithListsState
             : null,
-        hasData: state is SearchWithListsState,
+        hasData: state is WithListsState,
       ),
     );
 
@@ -61,20 +61,20 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     emit(
       groupListOrFailure.fold(
-        (failure) => (state as SearchLoadingState).hasData
-            ? SearchLoadedState.fromState(
-                state: state as SearchWithListsState,
+        (failure) => (state as LoadingState).hasData
+            ? LoadedState.fromState(
+                state: state as WithListsState,
                 hasError: true,
               )
-            : SearchEmptyState(),
+            : EmptyState(),
         (groupList) => employeeListOrFailure.fold(
-          (failure) => (state as SearchLoadingState).hasData
-              ? SearchLoadedState.fromState(
-                  state: state as SearchWithListsState,
+          (failure) => (state as LoadingState).hasData
+              ? LoadedState.fromState(
+                  state: state as WithListsState,
                   hasError: true,
                 )
-              : SearchEmptyState(),
-          (employeeList) => SearchLoadedState(
+              : EmptyState(),
+          (employeeList) => LoadedState(
             groupList: groupList,
             employeeList: employeeList,
             preparedGroupList: groupList,
@@ -105,7 +105,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     Emitter<SearchState> emit,
     bool isGroup,
   ) async {
-    final searchWithListsState = state as SearchWithListsState;
+    final searchWithListsState = state as WithListsState;
 
     final groupList = searchWithListsState.groupList!;
     final employeeList = searchWithListsState.employeeList!;
@@ -130,8 +130,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     emit(
       listOrFailure.fold(
-        (failure) => SearchEmptyState(),
-        (list) => SearchLoadedState(
+        (failure) => EmptyState(),
+        (list) => LoadedState(
           groupList: groupList,
           employeeList: employeeList,
           preparedGroupList: isGroup ? list as List<Group> : preparedGroupList,

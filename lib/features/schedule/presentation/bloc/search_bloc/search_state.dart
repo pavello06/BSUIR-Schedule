@@ -10,12 +10,12 @@ abstract class SearchState extends Equatable {
   List<Object?> get props => [];
 }
 
-class SearchInitialState extends SearchState {
-  const SearchInitialState();
+class InitialState extends SearchState {
+  const InitialState();
 }
 
-abstract class SearchWithListsState extends SearchState {
-  const SearchWithListsState({
+abstract class WithListsState extends SearchState {
+  const WithListsState({
     required this.groupList,
     required this.employeeList,
     required this.preparedGroupList,
@@ -37,8 +37,8 @@ abstract class SearchWithListsState extends SearchState {
   ];
 }
 
-class SearchLoadingState extends SearchWithListsState {
-  SearchLoadingState({SearchWithListsState? state, required this.hasData})
+class LoadingState extends WithListsState {
+  LoadingState({WithListsState? state, required this.hasData})
     : super(
         groupList: state?.groupList,
         employeeList: state?.employeeList,
@@ -52,8 +52,8 @@ class SearchLoadingState extends SearchWithListsState {
   List<Object?> get props => [...super.props, hasData];
 }
 
-class SearchLoadedState extends SearchWithListsState {
-  const SearchLoadedState({
+class LoadedState extends WithListsState {
+  const LoadedState({
     required super.groupList,
     required super.employeeList,
     required super.preparedGroupList,
@@ -61,8 +61,8 @@ class SearchLoadedState extends SearchWithListsState {
     required this.hasError,
   });
 
-  SearchLoadedState.fromState({
-    SearchWithListsState? state,
+  LoadedState.fromState({
+    WithListsState? state,
     required this.hasError,
   }) : super(
          groupList: state?.groupList,
@@ -77,6 +77,6 @@ class SearchLoadedState extends SearchWithListsState {
   List<Object?> get props => [...super.props, hasError];
 }
 
-class SearchEmptyState extends SearchState {
-  const SearchEmptyState();
+class EmptyState extends SearchState {
+  const EmptyState();
 }
