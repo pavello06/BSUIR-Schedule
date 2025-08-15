@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/extensions/build_context_extension.dart';
+import '../../bloc/search_bloc/search_bloc.dart';
+import '../../bloc/search_bloc/search_event.dart';
 
 class SearchAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
-  const SearchAppBarWidget({super.key, required this.refreshKeys});
+  const SearchAppBarWidget({super.key});
 
-  final List<GlobalKey<RefreshIndicatorState>> refreshKeys;
-
-  @override
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -20,9 +20,7 @@ class SearchAppBarWidget extends StatelessWidget
       actions: [
         IconButton(
           onPressed: () {
-            for (final key in refreshKeys) {
-              key.currentState?.show();
-            }
+            context.read<SearchBloc>().add(UpdateListsEvent());
           },
           icon: Icon(Icons.update),
         ),
