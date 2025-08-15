@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/constants.dart';
 import '../../../../../core/extensions/build_context_extension.dart';
 
 class SearchFilterWidget extends StatelessWidget {
@@ -27,14 +28,14 @@ class SearchFilterWidget extends StatelessWidget {
             builder: (context, child) {
               final position =
                   (pageController.hasClients ? pageController.page ?? 0 : 0) *
-                  context.size!.width *
+                  mq.width *
                   0.5;
 
               return Transform.translate(
                 offset: Offset(position, 0),
                 child: Container(
                   color: context.theme.primaryColor,
-                  width: context.size!.width * 0.5,
+                  width: mq.width * 0.5,
                   height: 3,
                 ),
               );
