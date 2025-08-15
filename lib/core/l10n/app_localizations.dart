@@ -151,6 +151,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t load schedule\nPull down to update'**
   String get searchEmpty;
+
+  /// No description provided for @searchSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'The data has not been uploaded'**
+  String get searchSuccess;
+
+  /// No description provided for @searchError.
+  ///
+  /// In en, this message translates to:
+  /// **'The data has not been uploaded'**
+  String get searchError;
 }
 
 class _AppLocalizationsDelegate

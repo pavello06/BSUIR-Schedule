@@ -59,4 +59,10 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get searchEmpty =>
       'Не удалось загрузить расписание\nПотяните вниз, чтобы обновить';
+
+  @override
+  String get searchSuccess => 'Данные загружены';
+
+  @override
+  String get searchError => 'Данные не загружены';
 }
