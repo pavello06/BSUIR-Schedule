@@ -77,4 +77,6 @@ class SearchLoadedState extends SearchWithListsState {
   List<Object?> get props => [...super.props, hasError];
 }
 
-class SearchEmptyState extends SearchState {}
+class SearchEmptyState extends SearchState {
+  const SearchEmptyState();
+}
