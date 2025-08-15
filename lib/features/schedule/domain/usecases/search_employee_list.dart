@@ -20,7 +20,7 @@ class SearchEmployeeList
       params.employeeList
           .where(
             (employee) =>
-                '${employee.lastName} ${employee.firstName} ${employee.middleName} ${employee.degreeAbbrev} ${employee.rank ?? ''} ${employee.academicDepartment?.join(', ')}'
+                '${employee.lastName} ${employee.firstName} ${employee.middleName ?? ''} ${employee.degreeAbbrev} ${employee.rank ?? ''} ${employee.academicDepartment?.join(', ')}'
                     .toLowerCase()
                     .contains(params.query.toLowerCase()),
           )
