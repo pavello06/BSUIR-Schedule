@@ -138,7 +138,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           preparedEmployeeList: !isGroup
               ? list as List<Employee>
               : preparedEmployeeList,
-          hasError: false,
+          hasError: null,
         ),
       ),
     );

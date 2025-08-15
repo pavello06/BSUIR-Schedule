@@ -71,7 +71,7 @@ class SearchLoadedState extends SearchWithListsState {
          preparedEmployeeList: state?.preparedEmployeeList,
        );
 
-  final bool hasError;
+  final bool? hasError;
 
   @override
   List<Object?> get props => [...super.props, hasError];
