@@ -49,7 +49,9 @@ abstract class ScheduleLocalDataSource {
 
   Future<void> cachedCurrentWeek(CurrentWeekModel currentWeek);
 
-  Future<List<SavedScheduleModel>> getSavedScheduleList();
+  Future<List<SavedScheduleModel>> getSavedSchedules();
+
+  Future<void> cachedSavedSchedules(List<ScheduleModel> savedSchedules);
 }
 
 class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
@@ -190,19 +192,22 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<List<SavedScheduleModel>> getSavedScheduleList() async {
-    final response = await sharedPreferences.getStringList(
-      _cachedSavedScheduleList,
-    );
+  Future<List<SavedScheduleModel>> getSavedSchedules() async {
+    final response = await sharedPreferences.getStringList(_pathToSavedSchedules);
     if (response == null) {
       return <SavedScheduleModel>[];
     }
 
     return (response as List)
-        .map(
-          (savedSchedule) =>
-              SavedScheduleModel.fromJson(json.decode(savedSchedule)),
-        )
+        .map((savedSchedule) => SavedScheduleModel.fromJson(json.decode(savedSchedule)))
         .toList();
+  }
+
+  @override
+  Future<void> cachedSavedSchedules(List<ScheduleModel> savedSchedules) async {
+    await sharedPreferences.setStringList(
+      _pathToSavedSchedules,
+      savedSchedules.map((savedSchedule) => json.encode(savedSchedule.toJson())).toList(),
+    );
   }
 }
