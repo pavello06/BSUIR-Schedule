@@ -9,9 +9,9 @@ import '../bloc/search_bloc/search_bloc.dart';
 import '../bloc/search_bloc/search_event.dart';
 import '../bloc/search_bloc/search_state.dart';
 import '../widgets/search_widgets/search_app_bar_widget.dart';
-import '../widgets/search_widgets/search_employee_card_widget.dart';
+import '../widgets/search_employee_card_widget.dart';
 import '../widgets/search_widgets/search_filter_widget.dart';
-import '../widgets/search_widgets/search_group_card_widget.dart';
+import '../widgets/search_group_card_widget.dart';
 import '../widgets/search_widgets/search_text_field_widget.dart';
 
 class SearchPage extends StatelessWidget {
