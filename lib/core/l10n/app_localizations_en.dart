@@ -14,6 +14,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get mySchedules => 'My schedules';
+
+  @override
+  String get savedSchedulesEmpty => 'You haven\'t added any schedules yet';
+
+  @override
   String get addingSchedule => 'Adding a schedule';
 
   @override

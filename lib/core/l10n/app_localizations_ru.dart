@@ -14,6 +14,12 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get mySchedules => 'Мои расписания';
+
+  @override
+  String get savedSchedulesEmpty => 'Вы не добавили ещё ни одного расписания';
+
+  @override
   String get addingSchedule => 'Добавление расписания';
 
   @override

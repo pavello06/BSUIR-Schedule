@@ -1,6 +1,9 @@
 {
   "courseNumber": "{number} course",
 
+  "mySchedules": "My schedules",
+  "savedSchedulesEmpty": "You haven't added any schedules yet",
+
   "addingSchedule": "Adding a schedule",
   "groups": "Groups",
   "teachers": "Teachers",

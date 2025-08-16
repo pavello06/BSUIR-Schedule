@@ -104,6 +104,18 @@ abstract class AppLocalizations {
   /// **'{number} course'**
   String courseNumber(Object number);
 
+  /// No description provided for @mySchedules.
+  ///
+  /// In en, this message translates to:
+  /// **'My schedules'**
+  String get mySchedules;
+
+  /// No description provided for @savedSchedulesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t added any schedules yet'**
+  String get savedSchedulesEmpty;
+
   /// No description provided for @addingSchedule.
   ///
   /// In en, this message translates to:

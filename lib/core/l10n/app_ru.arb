@@ -1,6 +1,9 @@
 {
   "courseNumber": "{number} курс",
 
+  "mySchedules": "Мои расписания",
+  "savedSchedulesEmpty": "Вы не добавили ещё ни одного расписания",
+
   "addingSchedule": "Добавление расписания",
   "groups": "Группы",
   "teachers": "Преподаватели",
