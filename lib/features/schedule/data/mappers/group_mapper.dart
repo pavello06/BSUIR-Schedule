@@ -12,11 +12,27 @@ class GroupMapper {
     required SpecialityModel speciality,
   }) {
     return Group(
-      name: group.name,
+      name: group.name!,
       faculty: FacultyMapper.toEntity(faculty: faculty),
       speciality: SpecialityMapper.toEntity(speciality: speciality),
       course: group.course!,
       numberOfStudents: null,
+    );
+  }
+
+  static GroupModel toModel({required Group group}) {
+    return GroupModel(
+      name: group.name,
+      facultyId: null,
+      facultyAbbrev: null,
+      facultyName: null,
+      specialityDepartmentEducationFormId: null,
+      specialityName: null,
+      specialityAbbrev: null,
+      course: group.course,
+      id: null,
+      calendarId: null,
+      educationDegree: null,
     );
   }
 }

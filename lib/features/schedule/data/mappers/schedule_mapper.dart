@@ -15,14 +15,11 @@ class ScheduleMapper {
   }) {
     return GroupSchedule(
       lessons: _getLessons(schedule, groupMap),
-      exams: schedule.exams
-          .map(
-            (lesson) =>
-                SubjectMapper.toExam(subject: lesson, groupMap: groupMap),
-          )
+      exams: schedule.exams!
+          .map((lesson) => SubjectMapper.toExam(subject: lesson, groupMap: groupMap))
           .toList(),
-      lessonsStartDate: DateFormat('dd.MM.yyyy').parse(schedule.startDate),
-      lessonsEndDate: DateFormat('dd.MM.yyyy').parse(schedule.endDate),
+      lessonsStartDate: DateFormat('dd.MM.yyyy').parse(schedule.startDate!),
+      lessonsEndDate: DateFormat('dd.MM.yyyy').parse(schedule.endDate!),
       examsStartDate: DateFormat('dd.MM.yyyy').parse(schedule.startExamsDate!),
       examsEndDate: DateFormat('dd.MM.yyyy').parse(schedule.endExamsDate!),
       group: groupMap[schedule.studentGroupDto!.name]!,
@@ -35,14 +32,11 @@ class ScheduleMapper {
   }) {
     return EmployeeSchedule(
       lessons: _getLessons(schedule, groupMap),
-      exams: schedule.exams
-          .map(
-            (lesson) =>
-                SubjectMapper.toExam(subject: lesson, groupMap: groupMap),
-          )
+      exams: schedule.exams!
+          .map((lesson) => SubjectMapper.toExam(subject: lesson, groupMap: groupMap))
           .toList(),
-      lessonsStartDate: DateFormat('dd.MM.yyyy').parse(schedule.startDate),
-      lessonsEndDate: DateFormat('dd.MM.yyyy').parse(schedule.endDate),
+      lessonsStartDate: DateFormat('dd.MM.yyyy').parse(schedule.startDate!),
+      lessonsEndDate: DateFormat('dd.MM.yyyy').parse(schedule.endDate!),
       employee: SubjectEmployeeMapper.toEntity(employee: schedule.employeeDto!),
     );
   }
@@ -85,9 +79,9 @@ class ScheduleMapper {
         'Суббота': [],
       },
     };
-    for (final lessons in schedule.schedules.entries) {
+    for (final lessons in schedule.schedules!.entries) {
       for (final lesson in lessons.value) {
-        for (final weekNumber in lesson.weekNumber) {
+        for (final weekNumber in lesson.weekNumber!) {
           preparedLessons[weekNumber]![lessons.key]!.add(
             SubjectMapper.toLesson(subject: lesson, groupMap: groupMap),
           );
