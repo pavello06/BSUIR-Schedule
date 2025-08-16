@@ -13,17 +13,17 @@ class EmployeeModel {
     required this.fio,
   });
 
-  final String firstName;
-  final String lastName;
+  final String? firstName;
+  final String? lastName;
   final String? middleName;
-  final String degree;
+  final String? degree;
   final String? rank;
-  final String photoLink;
+  final String? photoLink;
   final String? calendarId;
-  final List<String> academicDepartment;
-  final int id;
-  final String urlId;
-  final String fio;
+  final List<String>? academicDepartment;
+  final int? id;
+  final String? urlId;
+  final String? fio;
 
   factory EmployeeModel.fromJson(Map<String, dynamic> json) {
     return EmployeeModel(

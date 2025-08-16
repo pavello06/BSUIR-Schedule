@@ -15,19 +15,19 @@ class SubjectEmployeeModel {
     required this.chief,
   });
 
-  final int id;
-  final String firstName;
+  final int? id;
+  final String? firstName;
   final String? middleName;
-  final String lastName;
-  final String photoLink;
-  final String degree;
-  final String degreeAbbrev;
+  final String? lastName;
+  final String? photoLink;
+  final String? degree;
+  final String? degreeAbbrev;
   final String? rank;
   final String? email;
-  final String urlId;
+  final String? urlId;
   final String? calendarId;
   final String? jobPositions;
-  final bool chief;
+  final bool? chief;
 
   factory SubjectEmployeeModel.fromJson(Map<String, dynamic> json) {
     return SubjectEmployeeModel(

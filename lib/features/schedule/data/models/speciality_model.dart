@@ -10,12 +10,12 @@ class SpecialityModel {
     required this.code,
   });
 
-  final int id;
-  final String name;
-  final String abbrev;
-  final EducationFormModel educationForm;
-  final int facultyId;
-  final String code;
+  final int? id;
+  final String? name;
+  final String? abbrev;
+  final EducationFormModel? educationForm;
+  final int? facultyId;
+  final String? code;
 
   factory SpecialityModel.fromJson(Map<String, dynamic> json) {
     return SpecialityModel(
@@ -32,7 +32,7 @@ class SpecialityModel {
     'id': id,
     'name': name,
     'abbrev': abbrev,
-    'educationForm': educationForm.toJson(),
+    'educationForm': educationForm!.toJson(),
     'facultyId': facultyId,
     'code': code,
   };

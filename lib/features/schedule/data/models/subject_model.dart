@@ -22,27 +22,25 @@ class SubjectModel {
   });
 
   final List<String>? auditories;
-  final String endLessonTime;
-  final String lessonTypeAbbrev;
+  final String? endLessonTime;
+  final String? lessonTypeAbbrev;
   final String? note;
-  final int numSubgroup;
-  final String startLessonTime;
-  final List<SubjectGroupModel> studentGroups;
-  final String subject;
-  final String subjectFullName;
-  final List<int> weekNumber;
+  final int? numSubgroup;
+  final String? startLessonTime;
+  final List<SubjectGroupModel>? studentGroups;
+  final String? subject;
+  final String? subjectFullName;
+  final List<int>? weekNumber;
   final List<SubjectEmployeeModel>? employees;
   final String? dateLesson;
   final String? startLessonDate;
   final String? endLessonDate;
-  final bool split;
-  final bool announcement;
+  final bool? split;
+  final bool? announcement;
 
   factory SubjectModel.fromJson(Map<String, dynamic> json) {
     return SubjectModel(
-      auditories: json['auditories'] == null
-          ? null
-          : List<String>.from(json['auditories']),
+      auditories: json['auditories'] == null ? null : List<String>.from(json['auditories']),
       endLessonTime: json['endLessonTime'],
       lessonTypeAbbrev: json['lessonTypeAbbrev'],
       note: json['note'],
@@ -74,7 +72,7 @@ class SubjectModel {
     'note': note,
     'numSubgroup': numSubgroup,
     'startLessonTime': startLessonTime,
-    'studentGroups': studentGroups.map((x) => x.toJson()).toList(),
+    'studentGroups': studentGroups!.map((x) => x.toJson()).toList(),
     'subject': subject,
     'subjectFullName': subjectFullName,
     'weekNumber': weekNumber,

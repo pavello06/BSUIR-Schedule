@@ -18,18 +18,18 @@ class ScheduleModel {
     required this.currentPeriod,
   });
 
-  final String startDate;
-  final String endDate;
+  final String? startDate;
+  final String? endDate;
   final String? startExamsDate;
   final String? endExamsDate;
   final SubjectEmployeeModel? employeeDto;
   final GroupModel? studentGroupDto;
-  final Map<String, List<SubjectModel>> schedules;
+  final Map<String, List<SubjectModel>>? schedules;
   final Map<String, List<SubjectModel>>? previousSchedules;
-  final String currentTerm;
+  final String? currentTerm;
   final String? previousTerm;
-  final List<SubjectModel> exams;
-  final String currentPeriod;
+  final List<SubjectModel>? exams;
+  final String? currentPeriod;
 
   factory ScheduleModel.fromJson(Map<String, dynamic> json) {
     return ScheduleModel(
@@ -59,9 +59,7 @@ class ScheduleModel {
             ),
       currentTerm: json['currentTerm'],
       previousTerm: json['previousTerm'],
-      exams: List<SubjectModel>.from(
-        json['exams']!.map((x) => SubjectModel.fromJson(x)),
-      ),
+      exams: List<SubjectModel>.from(json['exams']!.map((x) => SubjectModel.fromJson(x))),
       currentPeriod: json['currentPeriod'],
     );
   }
@@ -73,18 +71,17 @@ class ScheduleModel {
     'endExamsDate': endExamsDate,
     'employeeDto': employeeDto?.toJson(),
     'studentGroupDto': studentGroupDto?.toJson(),
-    'schedules': Map.from(schedules).map(
-      (k, v) => MapEntry<String, dynamic>(k, v.map((x) => x.toJson()).toList()),
-    ),
+    'schedules': Map.from(
+      schedules!,
+    ).map((k, v) => MapEntry<String, dynamic>(k, v.map((x) => x.toJson()).toList())),
     'previousSchedules': previousSchedules == null
         ? null
-        : Map.from(previousSchedules!).map(
-            (k, v) =>
-                MapEntry<String, dynamic>(k, v.map((x) => x.toJson()).toList()),
-          ),
+        : Map.from(
+            previousSchedules!,
+          ).map((k, v) => MapEntry<String, dynamic>(k, v.map((x) => x.toJson()).toList())),
     'currentTerm': currentTerm,
     'previousTerm': previousTerm,
-    'exams': exams.map((x) => x.toJson()).toList(),
+    'exams': exams!.map((x) => x.toJson()).toList(),
     'currentPeriod': currentPeriod,
   };
 }

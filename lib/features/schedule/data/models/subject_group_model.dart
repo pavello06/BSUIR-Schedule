@@ -7,11 +7,11 @@ class SubjectGroupModel {
     required this.educationDegree,
   });
 
-  final String specialityName;
-  final String specialityCode;
-  final int numberOfStudents;
-  final String name;
-  final int educationDegree;
+  final String? specialityName;
+  final String? specialityCode;
+  final int? numberOfStudents;
+  final String? name;
+  final int? educationDegree;
 
   factory SubjectGroupModel.fromJson(Map<String, dynamic> json) {
     return SubjectGroupModel(

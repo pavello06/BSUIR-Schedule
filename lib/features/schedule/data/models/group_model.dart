@@ -13,17 +13,17 @@ class GroupModel {
     required this.educationDegree,
   });
 
-  final String name;
-  final int facultyId;
-  final String facultyAbbrev;
-  final String facultyName;
-  final int specialityDepartmentEducationFormId;
-  final String specialityName;
-  final String specialityAbbrev;
+  final String? name;
+  final int? facultyId;
+  final String? facultyAbbrev;
+  final String? facultyName;
+  final int? specialityDepartmentEducationFormId;
+  final String? specialityName;
+  final String? specialityAbbrev;
   final int? course;
-  final int id;
+  final int? id;
   final String? calendarId;
-  final int educationDegree;
+  final int? educationDegree;
 
   factory GroupModel.fromJson(Map<String, dynamic> json) {
     return GroupModel(
@@ -31,8 +31,7 @@ class GroupModel {
       facultyId: json['facultyId'],
       facultyAbbrev: json['facultyAbbrev'],
       facultyName: json['facultyName'],
-      specialityDepartmentEducationFormId:
-          json['specialityDepartmentEducationFormId'],
+      specialityDepartmentEducationFormId: json['specialityDepartmentEducationFormId'],
       specialityName: json['specialityName'],
       specialityAbbrev: json['specialityAbbrev'],
       course: json['course'],
