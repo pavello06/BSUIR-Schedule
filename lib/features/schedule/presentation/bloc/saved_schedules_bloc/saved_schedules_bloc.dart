@@ -5,14 +5,12 @@ import '../../../domain/usecases/get_saved_schedules.dart';
 import 'saved_schedules_event.dart';
 import 'saved_schedules_state.dart';
 
-class SavedSchedulesBloc
-    extends Bloc<SavedSchedulesEvent, SavedSchedulesState> {
-  final GetSavedSchedules getSavedScheduleList;
-
-  SavedSchedulesBloc({required this.getSavedScheduleList})
-    : super(InitialState()) {
+class SavedSchedulesBloc extends Bloc<SavedSchedulesEvent, SavedSchedulesState> {
+  SavedSchedulesBloc({required this.getSavedScheduleList}) : super(InitialState()) {
     on<GetListEvent>(_onGetList);
   }
+
+  final GetSavedSchedules getSavedScheduleList;
 
   void _onGetList(GetListEvent event, Emitter<SavedSchedulesState> emit) async {
     final savedScheduleListOrFailure = await getSavedScheduleList(NoParams());

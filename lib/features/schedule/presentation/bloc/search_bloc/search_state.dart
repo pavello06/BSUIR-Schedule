@@ -16,34 +16,28 @@ class InitialState extends SearchState {
 
 abstract class WithListsState extends SearchState {
   const WithListsState({
-    required this.groupList,
-    required this.employeeList,
-    required this.preparedGroupList,
-    required this.preparedEmployeeList,
+    required this.groups,
+    required this.employees,
+    required this.foundedGroups,
+    required this.foundedEmployees,
   });
 
-  final List<Group>? groupList;
-  final List<Employee>? employeeList;
-  final List<Group>? preparedGroupList;
-  final List<Employee>? preparedEmployeeList;
+  final List<Group>? groups;
+  final List<Employee>? employees;
+  final List<Group>? foundedGroups;
+  final List<Employee>? foundedEmployees;
 
   @override
-  List<Object?> get props => [
-    ...super.props,
-    groupList,
-    employeeList,
-    preparedGroupList,
-    preparedEmployeeList,
-  ];
+  List<Object?> get props => [...super.props, groups, employees, foundedGroups, foundedEmployees];
 }
 
 class LoadingState extends WithListsState {
   LoadingState({WithListsState? state, required this.hasData})
     : super(
-        groupList: state?.groupList,
-        employeeList: state?.employeeList,
-        preparedGroupList: state?.preparedGroupList,
-        preparedEmployeeList: state?.preparedEmployeeList,
+        groups: state?.groups,
+        employees: state?.employees,
+        foundedGroups: state?.foundedGroups,
+        foundedEmployees: state?.foundedEmployees,
       );
 
   final bool hasData;
@@ -54,22 +48,20 @@ class LoadingState extends WithListsState {
 
 class LoadedState extends WithListsState {
   const LoadedState({
-    required super.groupList,
-    required super.employeeList,
-    required super.preparedGroupList,
-    required super.preparedEmployeeList,
+    required super.groups,
+    required super.employees,
+    required super.foundedGroups,
+    required super.foundedEmployees,
     required this.hasError,
   });
 
-  LoadedState.fromState({
-    WithListsState? state,
-    required this.hasError,
-  }) : super(
-         groupList: state?.groupList,
-         employeeList: state?.employeeList,
-         preparedGroupList: state?.preparedGroupList,
-         preparedEmployeeList: state?.preparedEmployeeList,
-       );
+  LoadedState.fromState({WithListsState? state, required this.hasError})
+    : super(
+        groups: state?.groups,
+        employees: state?.employees,
+        foundedGroups: state?.foundedGroups,
+        foundedEmployees: state?.foundedEmployees,
+      );
 
   final bool? hasError;
 

@@ -1,7 +1,3 @@
-abstract class SavedSchedulesEvent {
-  const SavedSchedulesEvent();
-}
+abstract class SavedSchedulesEvent {}
 
-class GetListEvent extends SavedSchedulesEvent {
-  const GetListEvent();
-}
+class GetListEvent extends SavedSchedulesEvent {}

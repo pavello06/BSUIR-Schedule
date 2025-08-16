@@ -1,26 +1,25 @@
-abstract class SearchEvent {
-  const SearchEvent();
-}
+import '../../../domain/entities/employee.dart';
+import '../../../domain/entities/group.dart';
 
-class GetListsEvent extends SearchEvent {
-  const GetListsEvent();
-}
+abstract class SearchEvent {}
 
-class UpdateListsEvent extends SearchEvent {
-  const UpdateListsEvent();
-}
+class GetListsEvent extends SearchEvent {}
 
-abstract class SearchListEvent extends SearchEvent {
-  const SearchListEvent({required this.query, required this.words});
+class UpdateListsEvent extends SearchEvent {}
 
+class SearchListEvent extends SearchEvent {
+  SearchListEvent({required this.isGroup, required this.query, required this.words});
+
+  final bool isGroup;
   final String query;
   final Map<String, String> words;
 }
 
-class SearchGroupListEvent extends SearchListEvent {
-  const SearchGroupListEvent({required super.query, required super.words});
-}
+class SaveScheduleEvent extends SearchEvent {
+  SaveScheduleEvent({required this.isGroup, this.group, this.employee, required this.query});
 
-class SearchEmployeeListEvent extends SearchListEvent {
-  const SearchEmployeeListEvent({required super.query, required super.words});
+  final bool isGroup;
+  final Group? group;
+  final Employee? employee;
+  final String query;
 }
