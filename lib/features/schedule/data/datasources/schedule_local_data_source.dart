@@ -11,14 +11,14 @@ import '../models/schedule_model.dart';
 import '../models/speciality_model.dart';
 import '../models/group_model.dart';
 
-const _cachedGroupSchedule = 'cachedGroupSchedule';
-const _cachedEmployeeSchedule = 'cachedEmployeeSchedule';
-const _cachedGroupList = 'cachedGroupList';
-const _cachedEmployeeList = 'cachedEmployeeList';
-const _cachedFacultyList = 'cachedFacultyList';
-const _cachedSpecialityList = 'cachedSpecialityList';
-const _cachedCurrentWeek = 'cachedCurrentWeek';
-const _cachedSavedScheduleList = 'cachedSavedScheduleList';
+const _pathToGroupSchedule = 'groupSchedule';
+const _pathToEmployeeSchedule = 'employeeSchedule';
+const _pathToGroups = 'groups';
+const _pathToEmployees = 'employees';
+const _pathToFaculties = 'faculties';
+const _pathToSpecialities = 'specialities';
+const _pathToCurrentWeek = 'currentWeek';
+const _pathToSavedSchedules = 'savedSchedules';
 
 abstract class ScheduleLocalDataSource {
   Future<ScheduleModel> getGroupSchedule(String groupNumber);
@@ -29,21 +29,21 @@ abstract class ScheduleLocalDataSource {
 
   Future<void> cachedEmployeeSchedule(ScheduleModel schedule);
 
-  Future<List<GroupModel>> getGroupList();
+  Future<List<GroupModel>> getGroups();
 
-  Future<void> cachedGroupList(List<GroupModel> groupList);
+  Future<void> cachedGroups(List<GroupModel> groups);
 
-  Future<List<EmployeeModel>> getEmployeeList();
+  Future<List<EmployeeModel>> getEmployees();
 
-  Future<void> cachedEmployeeList(List<EmployeeModel> employeeList);
+  Future<void> cachedEmployees(List<EmployeeModel> employees);
 
-  Future<Map<int, FacultyModel>> getFacultyMap();
+  Future<List<FacultyModel>> getFaculties();
 
-  Future<void> cachedFacultyMap(Map<int, FacultyModel> facultyMap);
+  Future<void> cachedFaculties(List<FacultyModel> faculties);
 
-  Future<Map<int, SpecialityModel>> getSpecialityMap();
+  Future<List<SpecialityModel>> getSpecialities();
 
-  Future<void> cachedSpecialityMap(Map<int, SpecialityModel> specialityMap);
+  Future<void> cachedSpecialities(List<SpecialityModel> specialities);
 
   Future<CurrentWeekModel> getCurrentWeek();
 
@@ -65,7 +65,7 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   @override
   Future<void> cachedGroupSchedule(ScheduleModel schedule) async {
     await sharedPreferences.setString(
-      '$_cachedGroupSchedule${schedule.studentGroupDto!.name}',
+      '$_pathToGroupSchedule${schedule.studentGroupDto!.name}',
       json.encode(schedule.toJson()),
     );
   }
@@ -78,14 +78,14 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   @override
   Future<void> cachedEmployeeSchedule(ScheduleModel schedule) async {
     await sharedPreferences.setString(
-      '$_cachedEmployeeSchedule${schedule.employeeDto!.urlId}',
+      '$_pathToEmployeeSchedule${schedule.employeeDto!.urlId}',
       json.encode(schedule.toJson()),
     );
   }
 
   Future<ScheduleModel> _getSchedule(bool isGroup, String query) async {
     final response = await sharedPreferences.getString(
-      '${isGroup ? _cachedGroupSchedule : _cachedEmployeeSchedule}$query',
+      '${isGroup ? _pathToGroupSchedule : _pathToEmployeeSchedule}$query',
     );
     if (response == null) {
       throw CacheException();
@@ -96,28 +96,26 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<List<GroupModel>> getGroupList() async {
-    final response = await sharedPreferences.getStringList(_cachedGroupList);
+  Future<List<GroupModel>> getGroups() async {
+    final response = await sharedPreferences.getStringList(_pathToGroups);
     if (response == null) {
       throw CacheException();
     }
 
-    return (response as List)
-        .map((group) => GroupModel.fromJson(json.decode(group)))
-        .toList();
+    return (response as List).map((group) => GroupModel.fromJson(json.decode(group))).toList();
   }
 
   @override
-  Future<void> cachedGroupList(List<GroupModel> groupList) async {
+  Future<void> cachedGroups(List<GroupModel> groups) async {
     await sharedPreferences.setStringList(
-      _cachedGroupList,
-      groupList.map((group) => json.encode(group.toJson())).toList(),
+      _pathToGroups,
+      groups.map((group) => json.encode(group.toJson())).toList(),
     );
   }
 
   @override
-  Future<List<EmployeeModel>> getEmployeeList() async {
-    final response = await sharedPreferences.getStringList(_cachedEmployeeList);
+  Future<List<EmployeeModel>> getEmployees() async {
+    final response = await sharedPreferences.getStringList(_pathToEmployees);
     if (response == null) {
       throw CacheException();
     }
@@ -128,86 +126,67 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<void> cachedEmployeeList(List<EmployeeModel> employeeList) async {
+  Future<void> cachedEmployees(List<EmployeeModel> employees) async {
     await sharedPreferences.setStringList(
-      _cachedEmployeeList,
-      employeeList.map((employee) => json.encode(employee.toJson())).toList(),
+      _pathToEmployees,
+      employees.map((employee) => json.encode(employee.toJson())).toList(),
     );
   }
 
   @override
-  Future<Map<int, FacultyModel>> getFacultyMap() async {
-    final response = await sharedPreferences.getStringList(_cachedFacultyList);
+  Future<List<FacultyModel>> getFaculties() async {
+    final response = await sharedPreferences.getStringList(_pathToFaculties);
     if (response == null) {
       throw CacheException();
     }
-    final facultyMap = <int, FacultyModel>{};
-    for (final faculty in response) {
-      final decodedFaculty = FacultyModel.fromJson(json.decode(faculty));
-      facultyMap[decodedFaculty.id] = decodedFaculty;
-    }
 
-    return facultyMap;
+    return (response as List)
+        .map((faculty) => FacultyModel.fromJson(json.decode(faculty)))
+        .toList();
   }
 
   @override
-  Future<void> cachedFacultyMap(Map<int, FacultyModel> facultyMap) {
+  Future<void> cachedFaculties(List<FacultyModel> faculties) {
     return sharedPreferences.setStringList(
-      _cachedFacultyList,
-      facultyMap.values
-          .map((faculty) => json.encode(faculty.toJson()))
-          .toList(),
+      _pathToFaculties,
+      faculties.map((faculty) => json.encode(faculty.toJson())).toList(),
     );
   }
 
   @override
-  Future<Map<int, SpecialityModel>> getSpecialityMap() async {
-    final response = await sharedPreferences.getStringList(
-      _cachedSpecialityList,
-    );
+  Future<List<SpecialityModel>> getSpecialities() async {
+    final response = await sharedPreferences.getStringList(_pathToSpecialities);
     if (response == null) {
       throw CacheException();
     }
-    final specialityMap = <int, SpecialityModel>{};
-    for (final speciality in response) {
-      final decodedSpeciality = SpecialityModel.fromJson(
-        json.decode(speciality),
-      );
-      specialityMap[decodedSpeciality.id] = decodedSpeciality;
-    }
 
-    return specialityMap;
+    return (response as List)
+        .map((speciality) => SpecialityModel.fromJson(json.decode(speciality)))
+        .toList();
   }
 
   @override
-  Future<void> cachedSpecialityMap(
-    Map<int, SpecialityModel> specialityMap,
-  ) async {
+  Future<void> cachedSpecialities(List<SpecialityModel> specialities) async {
     await sharedPreferences.setStringList(
-      _cachedSpecialityList,
-      specialityMap.values
-          .map((speciality) => json.encode(speciality.toJson()))
-          .toList(),
+      _pathToSpecialities,
+      specialities.map((speciality) => json.encode(speciality.toJson())).toList(),
     );
   }
 
   @override
   Future<CurrentWeekModel> getCurrentWeek() async {
-    final response = await sharedPreferences.getString(_cachedCurrentWeek);
-    if (response != null) {
+    final response = await sharedPreferences.getString(_pathToCurrentWeek);
+    if (response == null) {
       throw CacheException();
     }
-    final currentWeek = json.decode(response!);
+    final currentWeek = json.decode(response);
 
     return CurrentWeekModel.fromJson(currentWeek);
   }
 
   @override
   Future<void> cachedCurrentWeek(CurrentWeekModel currentWeek) async {
-    await sharedPreferences.setString(
-      _cachedCurrentWeek,
-      json.encode(currentWeek.toJson()),
-    );
+    await sharedPreferences.setString(_pathToCurrentWeek, json.encode(currentWeek.toJson()));
   }
 
   @override

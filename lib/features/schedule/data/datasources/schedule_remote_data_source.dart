@@ -14,22 +14,31 @@ import '../models/group_model.dart';
 const _url = 'https://iis.bsuir.by/api/v1/';
 const _headers = {'Content-Type': 'application/json'};
 
+const _pathToGroupSchedule = 'schedule?studentGroup=';
+const _pathToEmployeeSchedule = 'employees/schedule/';
+const _pathToGroups = 'student-groups';
+const _pathToEmployees = 'employees/all';
+const _pathToFaculties = 'faculties';
+const _pathToSpecialities = 'specialities';
+const _pathToScheduleLastUpdate = 'last-update-date/';
+const _pathToGroupScheduleLastUpdate = '${_pathToScheduleLastUpdate}student-group?groupNumber=';
+const _pathToEmployeeScheduleLastUpdate = '${_pathToScheduleLastUpdate}employee?url-id=';
+const _pathToCurrentWeek = 'schedule/current-week';
+
 abstract class ScheduleRemoteDataSource {
   Future<ScheduleModel> getGroupSchedule(String groupNumber);
 
   Future<ScheduleModel> getEmployeeSchedule(String urlId);
 
-  Future<List<GroupModel>> getGroupList();
+  Future<List<GroupModel>> getGroups();
 
-  Future<List<EmployeeModel>> getEmployeeList();
+  Future<List<EmployeeModel>> getEmployees();
 
-  Future<Map<int, FacultyModel>> getFacultyMap();
+  Future<List<FacultyModel>> getFaculties();
 
-  Future<Map<int, SpecialityModel>> getSpecialityMap();
+  Future<List<SpecialityModel>> getSpecialities();
 
-  Future<ScheduleLastUpdateModel> getGroupScheduleLastUpdate(
-    String groupNumber,
-  );
+  Future<ScheduleLastUpdateModel> getGroupScheduleLastUpdate(String groupNumber);
 
   Future<ScheduleLastUpdateModel> getEmployeeScheduleLastUpdate(String urlId);
 
@@ -52,11 +61,8 @@ class ScheduleRemoteDataSourceImpl extends ScheduleRemoteDataSource {
   }
 
   Future<ScheduleModel> _getSchedule(bool isGroup, String query) async {
-    final response = await client.get(
-      Uri.parse(
-        '$_url${isGroup ? 'schedule?studentGroup=' : 'employees/schedule/'}$query',
-      ),
-      headers: _headers,
+    final response = await _getResponse(
+      '${isGroup ? _pathToGroupSchedule : _pathToEmployeeSchedule}$query',
     );
 
     if (response.statusCode == 200) {
@@ -69,16 +75,13 @@ class ScheduleRemoteDataSourceImpl extends ScheduleRemoteDataSource {
   }
 
   @override
-  Future<List<GroupModel>> getGroupList() async {
-    final response = await client.get(
-      Uri.parse('${_url}student-groups'),
-      headers: _headers,
-    );
+  Future<List<GroupModel>> getGroups() async {
+    final response = await _getResponse(_pathToGroups);
 
     if (response.statusCode == 200) {
-      final groupList = json.decode(response.body);
+      final groups = json.decode(response.body);
 
-      return (groupList as List)
+      return (groups as List)
           .map((group) => GroupModel.fromJson(group))
           .where((group) => group.course != null)
           .toList();
@@ -88,17 +91,40 @@ class ScheduleRemoteDataSourceImpl extends ScheduleRemoteDataSource {
   }
 
   @override
-  Future<List<EmployeeModel>> getEmployeeList() async {
-    final response = await client.get(
-      Uri.parse('${_url}employees/all'),
-      headers: _headers,
-    );
+  Future<List<EmployeeModel>> getEmployees() async {
+    final response = await _getResponse(_pathToEmployees);
 
     if (response.statusCode == 200) {
-      final employeeList = json.decode(response.body);
+      final employees = json.decode(response.body);
 
-      return (employeeList as List)
-          .map((employee) => EmployeeModel.fromJson(employee))
+      return (employees as List).map((employee) => EmployeeModel.fromJson(employee)).toList();
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<FacultyModel>> getFaculties() async {
+    final response = await _getResponse(_pathToFaculties);
+
+    if (response.statusCode == 200) {
+      final faculties = json.decode(response.body);
+
+      return (faculties as List).map((faculty) => FacultyModel.fromJson(faculty)).toList();
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<SpecialityModel>> getSpecialities() async {
+    final response = await _getResponse(_pathToSpecialities);
+
+    if (response.statusCode == 200) {
+      final specialities = json.decode(response.body);
+
+      return (specialities as List)
+          .map((speciality) => SpecialityModel.fromJson(speciality))
           .toList();
     } else {
       throw ServerException();
@@ -106,51 +132,7 @@ class ScheduleRemoteDataSourceImpl extends ScheduleRemoteDataSource {
   }
 
   @override
-  Future<Map<int, FacultyModel>> getFacultyMap() async {
-    final response = await client.get(
-      Uri.parse('${_url}faculties'),
-      headers: _headers,
-    );
-
-    if (response.statusCode == 200) {
-      final facultyList = json.decode(response.body);
-      final Map<int, FacultyModel> facultyMap = {};
-      for (final faculty in facultyList) {
-        final decodedFaculty = FacultyModel.fromJson(faculty);
-        facultyMap[decodedFaculty.id] = decodedFaculty;
-      }
-
-      return facultyMap;
-    } else {
-      throw ServerException();
-    }
-  }
-
-  @override
-  Future<Map<int, SpecialityModel>> getSpecialityMap() async {
-    final response = await client.get(
-      Uri.parse('${_url}specialities'),
-      headers: _headers,
-    );
-
-    if (response.statusCode == 200) {
-      final specialityList = json.decode(response.body);
-      final Map<int, SpecialityModel> specialityMap = {};
-      for (final speciality in specialityList) {
-        final decodedSpeciality = SpecialityModel.fromJson(speciality);
-        specialityMap[decodedSpeciality.id] = decodedSpeciality;
-      }
-
-      return specialityMap;
-    } else {
-      throw ServerException();
-    }
-  }
-
-  @override
-  Future<ScheduleLastUpdateModel> getGroupScheduleLastUpdate(
-    String groupNumber,
-  ) {
+  Future<ScheduleLastUpdateModel> getGroupScheduleLastUpdate(String groupNumber) {
     return _getScheduleLastUpdate(true, groupNumber);
   }
 
@@ -159,15 +141,9 @@ class ScheduleRemoteDataSourceImpl extends ScheduleRemoteDataSource {
     return _getScheduleLastUpdate(false, urlId);
   }
 
-  Future<ScheduleLastUpdateModel> _getScheduleLastUpdate(
-    bool isGroup,
-    String query,
-  ) async {
-    final response = await client.get(
-      Uri.parse(
-        '${_url}last-update-date/${isGroup ? 'student-group?groupNumber=' : 'employee?url-id='}$query',
-      ),
-      headers: _headers,
+  Future<ScheduleLastUpdateModel> _getScheduleLastUpdate(bool isGroup, String query) async {
+    final response = await _getResponse(
+      '${isGroup ? _pathToGroupScheduleLastUpdate : _pathToEmployeeScheduleLastUpdate}$query',
     );
 
     if (response.statusCode == 200) {
@@ -181,10 +157,7 @@ class ScheduleRemoteDataSourceImpl extends ScheduleRemoteDataSource {
 
   @override
   Future<CurrentWeekModel> getCurrentWeek() async {
-    final response = await client.get(
-      Uri.parse('${_url}schedule/current-week'),
-      headers: _headers,
-    );
+    final response = await _getResponse(_pathToCurrentWeek);
 
     if (response.statusCode == 200) {
       final currentWeek = json.decode(response.body);
@@ -193,5 +166,9 @@ class ScheduleRemoteDataSourceImpl extends ScheduleRemoteDataSource {
     } else {
       throw ServerException();
     }
+  }
+
+  Future<Response> _getResponse(String path) async {
+    return await client.get(Uri.parse('$_url$path'), headers: _headers);
   }
 }
