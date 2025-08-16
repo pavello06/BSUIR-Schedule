@@ -1,3 +1,4 @@
+import 'package:bsuir_schedule/features/schedule/domain/entities/saved_schedule.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
@@ -12,6 +13,7 @@ import '../datasources/schedule_local_data_source.dart';
 import '../datasources/schedule_remote_data_source.dart';
 import '../mappers/current_week_mapper.dart';
 import '../mappers/employee_mapper.dart';
+import '../mappers/saved_schedule_mapper.dart';
 import '../mappers/schedule_last_update_mapper.dart';
 import '../mappers/schedule_mapper.dart';
 import '../mappers/group_mapper.dart';
@@ -300,5 +302,23 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
     }
 
     return Right(CurrentWeekMapper.toEntity(currentWeek: currentWeek));
+  }
+
+  @override
+  Future<Either<Failure, List<SavedSchedule>>> getSavedScheduleList() async {
+    try {
+      final savedScheduleList = await localDataSource.getSavedScheduleList();
+
+      return Right(
+        savedScheduleList
+            .map(
+              (savedSchedule) =>
+                  SavedScheduleMapper.toEntity(savedSchedule: savedSchedule),
+            )
+            .toList(),
+      );
+    } catch (_) {
+      return Left(CacheFailure());
+    }
   }
 }
