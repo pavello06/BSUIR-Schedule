@@ -1,3 +1,4 @@
+import 'package:bsuir_schedule/features/schedule/domain/entities/saved_schedule.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
@@ -33,4 +34,6 @@ abstract class ScheduleRepository {
   );
 
   Future<Either<Failure, CurrentWeek>> getCurrentWeek();
+
+  Future<Either<Failure, List<SavedSchedule>>> getSavedScheduleList();
 }
