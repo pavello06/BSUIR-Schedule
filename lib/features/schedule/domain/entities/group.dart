@@ -19,11 +19,5 @@ class Group extends Equatable {
   final int? numberOfStudents;
 
   @override
-  List<Object?> get props => [
-    name,
-    faculty,
-    speciality,
-    course,
-    numberOfStudents,
-  ];
+  List<Object?> get props => [name, faculty, speciality, course, numberOfStudents];
 }

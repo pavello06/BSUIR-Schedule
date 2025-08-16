@@ -17,10 +17,5 @@ class GroupSchedule extends Schedule {
   final Group group;
 
   @override
-  List<Object?> get props => [
-    ...super.props,
-    examsStartDate,
-    examsEndDate,
-    group,
-  ];
+  List<Object?> get props => [...super.props, examsStartDate, examsEndDate, group];
 }

@@ -23,10 +23,10 @@ class GroupMapper {
   static GroupModel toModel({required Group group}) {
     return GroupModel(
       name: group.name,
-      facultyId: null,
+      facultyId: group.faculty.id,
       facultyAbbrev: null,
       facultyName: null,
-      specialityDepartmentEducationFormId: null,
+      specialityDepartmentEducationFormId: group.speciality.id,
       specialityName: null,
       specialityAbbrev: null,
       course: group.course,

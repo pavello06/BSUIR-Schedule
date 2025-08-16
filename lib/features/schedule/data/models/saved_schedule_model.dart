@@ -37,6 +37,8 @@ class SavedScheduleModel {
   Map<String, dynamic> toJson() => {
     'isGroup': isGroup,
     'group': group?.toJson(),
+    'faculty': faculty?.toJson(),
+    'speciality': speciality?.toJson(),
     'employee': employee?.toJson(),
     'query': query,
     'isActive': isActive,

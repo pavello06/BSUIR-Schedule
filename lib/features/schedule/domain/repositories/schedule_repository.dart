@@ -1,12 +1,8 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
-import '../entities/current_week.dart';
-import '../entities/employee.dart';
-import '../entities/saved_schedule.dart';
-import '../entities/schedule.dart';
-import '../entities/schedule_last_update.dart';
-import '../entities/group.dart';
+import '../entities/entities.dart';
+
 
 abstract class ScheduleRepository {
   Future<Either<Failure, Schedule>> getGroupSchedule(String groupNumber);
