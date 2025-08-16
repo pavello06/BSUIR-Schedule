@@ -1,14 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
-import '../../../../../core/extensions/build_context_extension.dart';
-import '../../../../../core/themes/app_colors.dart';
-import '../../../domain/entities/employee.dart';
+import '../../../../core/extensions/build_context_extension.dart';
+import '../../../../core/themes/app_colors.dart';
+import '../../domain/entities/group.dart';
 
-class SearchEmployeeCardWidget extends StatelessWidget {
-  const SearchEmployeeCardWidget({super.key, required this.employee});
+class SearchGroupCardWidget extends StatelessWidget {
+  const SearchGroupCardWidget({super.key, required this.group});
 
-  final Employee employee;
+  final Group group;
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +21,14 @@ class SearchEmployeeCardWidget extends StatelessWidget {
           child: Row(
             children: [
               ClipOval(
-                child: CachedNetworkImage(
-                  imageUrl: employee.photoLink,
-                  errorWidget: (context, url, error) => Container(
+                child: Image.file(
+                  File(''),
+                  errorBuilder: (context, url, error) => Container(
                     color: context.theme.primaryColor,
                     width: 60,
                     height: 60,
                     child: const Icon(
-                      Icons.person,
+                      Icons.people,
                       size: 35,
                       color: AppColors.foregroundColor,
                     ),
@@ -47,7 +48,7 @@ class SearchEmployeeCardWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${employee.lastName} ${employee.firstName} ${employee.middleName ?? ''}',
+                        group.name,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -55,15 +56,14 @@ class SearchEmployeeCardWidget extends StatelessWidget {
                       ),
 
                       Text(
-                        employee.academicDepartment!.join(', '),
+                        '${group.faculty.abbrev} ${group.speciality.abbrev} ${group.speciality.educationFormName} ${context.locale.courseNumber(group.course)}',
                         style: TextStyle(fontSize: 13),
                       ),
 
-                      if (employee.degreeAbbrev != '' && employee.rank != null)
-                        Text(
-                          '${employee.degreeAbbrev} ${employee.rank ?? ''}',
-                          style: TextStyle(fontSize: 13),
-                        ),
+                      Text(
+                        group.speciality.code,
+                        style: TextStyle(fontSize: 13),
+                      ),
                     ],
                   ),
                 ),
