@@ -1,0 +1,11 @@
+export 'current_week_mapper.dart';
+export 'employee_mapper.dart';
+export 'faculty_mapper.dart';
+export 'group_mapper.dart';
+export 'saved_schedule_mapper.dart';
+export 'schedule_last_update_mapper.dart';
+export 'schedule_mapper.dart';
+export 'speciality_mapper.dart';
+export 'subject_employee_mapper.dart';
+export 'subject_group_mapper.dart';
+export 'subject_mapper.dart';

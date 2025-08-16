@@ -3,13 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/errors/exceptions.dart';
-import '../models/current_week_model.dart';
-import '../models/employee_model.dart';
-import '../models/faculty_model.dart';
-import '../models/saved_schedule_model.dart';
-import '../models/schedule_model.dart';
-import '../models/speciality_model.dart';
-import '../models/group_model.dart';
+import '../models/models.dart';
 
 const _pathToGroupSchedule = 'groupSchedule';
 const _pathToEmployeeSchedule = 'employeeSchedule';
@@ -51,7 +45,7 @@ abstract class ScheduleLocalDataSource {
 
   Future<List<SavedScheduleModel>> getSavedSchedules();
 
-  Future<void> cachedSavedSchedules(List<ScheduleModel> savedSchedules);
+  Future<void> cachedSavedSchedules(List<SavedScheduleModel> savedSchedules);
 }
 
 class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
@@ -204,7 +198,7 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<void> cachedSavedSchedules(List<ScheduleModel> savedSchedules) async {
+  Future<void> cachedSavedSchedules(List<SavedScheduleModel> savedSchedules) async {
     await sharedPreferences.setStringList(
       _pathToSavedSchedules,
       savedSchedules.map((savedSchedule) => json.encode(savedSchedule.toJson())).toList(),

@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/usecases/usecase.dart';
-import '../../../domain/usecases/get_saved_schedule_list.dart';
+import '../../../domain/usecases/get_saved_schedules.dart';
 import 'saved_schedules_event.dart';
 import 'saved_schedules_state.dart';
 
 class SavedSchedulesBloc
     extends Bloc<SavedSchedulesEvent, SavedSchedulesState> {
-  final GetSavedScheduleList getSavedScheduleList;
+  final GetSavedSchedules getSavedScheduleList;
 
   SavedSchedulesBloc({required this.getSavedScheduleList})
     : super(InitialState()) {

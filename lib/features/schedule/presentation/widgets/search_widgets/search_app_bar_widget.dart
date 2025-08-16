@@ -12,7 +12,9 @@ class SearchAppBarWidget extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+      leading: IconButton(onPressed: () {
+        Navigator.pop(context);
+      }, icon: Icon(Icons.arrow_back)),
       title: Text(
         context.locale.addingSchedule,
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

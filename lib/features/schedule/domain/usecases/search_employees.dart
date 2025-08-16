@@ -6,16 +6,13 @@ import '../../../../core/usecases/usecase.dart';
 import '../entities/employee.dart';
 import '../repositories/schedule_repository.dart';
 
-class SearchEmployeeList
-    extends UseCase<List<Employee>, SearchEmployeeListParams> {
-  SearchEmployeeList({required this.repository});
+class SearchEmployees extends UseCase<List<Employee>, SearchEmployeesParams> {
+  SearchEmployees({required this.repository});
 
   final ScheduleRepository repository;
 
   @override
-  Future<Either<Failure, List<Employee>>> call(
-    SearchEmployeeListParams params,
-  ) async {
+  Future<Either<Failure, List<Employee>>> call(SearchEmployeesParams params) async {
     return Right(
       params.employeeList
           .where(
@@ -29,8 +26,8 @@ class SearchEmployeeList
   }
 }
 
-class SearchEmployeeListParams extends Equatable {
-  const SearchEmployeeListParams({
+class SearchEmployeesParams extends Equatable {
+  const SearchEmployeesParams({
     required this.employeeList,
     required this.query,
     required this.words,

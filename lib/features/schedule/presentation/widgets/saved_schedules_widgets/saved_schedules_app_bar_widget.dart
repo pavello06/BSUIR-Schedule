@@ -14,7 +14,9 @@ class SavedSchedulesAppBarWidget extends StatelessWidget
         context.locale.mySchedules,
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
-      actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
+      actions: [IconButton(onPressed: () {
+        Navigator.pushNamed(context, '/search');
+      }, icon: Icon(Icons.add))],
       centerTitle: true,
       toolbarHeight: preferredSize.height,
     );

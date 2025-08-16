@@ -6,17 +6,15 @@ import '../../../../core/usecases/usecase.dart';
 import '../entities/group.dart';
 import '../repositories/schedule_repository.dart';
 
-class SearchGroupList extends UseCase<List<Group>, SearchGroupListParams> {
-  SearchGroupList({required this.repository});
+class SearchGroups extends UseCase<List<Group>, SearchGroupsParams> {
+  SearchGroups({required this.repository});
 
   final ScheduleRepository repository;
 
   @override
-  Future<Either<Failure, List<Group>>> call(
-    SearchGroupListParams params,
-  ) async {
+  Future<Either<Failure, List<Group>>> call(SearchGroupsParams params) async {
     return Right(
-      params.groupList
+      params.groups
           .where(
             (group) =>
                 '${group.name} ${group.faculty.abbrev} ${group.speciality.abbrev} ${group.speciality.educationFormName} ${group.course} ${params.words['course']} ${group.speciality.code}'
@@ -28,17 +26,13 @@ class SearchGroupList extends UseCase<List<Group>, SearchGroupListParams> {
   }
 }
 
-class SearchGroupListParams extends Equatable {
-  const SearchGroupListParams({
-    required this.groupList,
-    required this.query,
-    required this.words,
-  });
+class SearchGroupsParams extends Equatable {
+  const SearchGroupsParams({required this.groups, required this.query, required this.words});
 
-  final List<Group> groupList;
+  final List<Group> groups;
   final String query;
   final Map<String, String> words;
 
   @override
-  List<Object?> get props => [groupList, query, words];
+  List<Object?> get props => [groups, query, words];
 }

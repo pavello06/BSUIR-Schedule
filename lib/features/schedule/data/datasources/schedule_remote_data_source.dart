@@ -3,13 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 import '../../../../core/errors/exceptions.dart';
-import '../models/current_week_model.dart';
-import '../models/employee_model.dart';
-import '../models/faculty_model.dart';
-import '../models/schedule_last_update_model.dart';
-import '../models/schedule_model.dart';
-import '../models/speciality_model.dart';
-import '../models/group_model.dart';
+import '../models/models.dart';
 
 const _url = 'https://iis.bsuir.by/api/v1/';
 const _headers = {'Content-Type': 'application/json'};

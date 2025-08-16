@@ -5,13 +5,13 @@ import '../../../../core/usecases/usecase.dart';
 import '../entities/saved_schedule.dart';
 import '../repositories/schedule_repository.dart';
 
-class GetSavedScheduleList extends UseCase<List<SavedSchedule>, NoParams> {
-  GetSavedScheduleList({required this.repository});
+class GetSavedSchedules extends UseCase<List<SavedSchedule>, NoParams> {
+  GetSavedSchedules({required this.repository});
 
   final ScheduleRepository repository;
 
   @override
   Future<Either<Failure, List<SavedSchedule>>> call(NoParams params) async {
-    return await repository.getSavedScheduleList();
+    return await repository.getSavedSchedules();
   }
 }

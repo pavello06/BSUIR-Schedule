@@ -3,22 +3,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/entities/employee.dart';
 import '../../../domain/entities/group.dart';
-import '../../../domain/usecases/get_employee_list.dart';
-import '../../../domain/usecases/get_group_list.dart';
-import '../../../domain/usecases/search_employee_list.dart';
-import '../../../domain/usecases/search_group_list.dart';
-import '../../../domain/usecases/update_employee_list.dart';
-import '../../../domain/usecases/update_group_list.dart';
+import '../../../domain/usecases/get_employees.dart';
+import '../../../domain/usecases/get_groups.dart';
+import '../../../domain/usecases/search_employees.dart';
+import '../../../domain/usecases/search_groups.dart';
+import '../../../domain/usecases/update_employees.dart';
+import '../../../domain/usecases/update_groups.dart';
 import 'search_event.dart';
 import 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final GetGroupList getGroupList;
-  final UpdateGroupList updateGroupList;
-  final GetEmployeeList getEmployeeList;
-  final UpdateEmployeeList updateEmployeeList;
-  final SearchGroupList searchGroupList;
-  final SearchEmployeeList searchEmployeeList;
+  final GetGroups getGroupList;
+  final UpdateGroups updateGroupList;
+  final GetEmployees getEmployeeList;
+  final UpdateEmployees updateEmployeeList;
+  final SearchGroups searchGroupList;
+  final SearchEmployees searchEmployeeList;
 
   SearchBloc({
     required this.getGroupList,
@@ -114,14 +114,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     final listOrFailure = isGroup
         ? await searchGroupList(
-            SearchGroupListParams(
-              groupList: groupList,
+            SearchGroupsParams(
+              groups: groupList,
               query: event.query,
               words: event.words,
             ),
           )
         : await searchEmployeeList(
-            SearchEmployeeListParams(
+            SearchEmployeesParams(
               employeeList: employeeList,
               query: event.query,
               words: event.words,

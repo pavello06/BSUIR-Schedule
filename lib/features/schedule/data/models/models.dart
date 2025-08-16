@@ -1,0 +1,12 @@
+export 'current_week_model.dart';
+export 'education_form_model.dart';
+export 'employee_model.dart';
+export 'faculty_model.dart';
+export 'group_model.dart';
+export 'saved_schedule_model.dart';
+export 'schedule_last_update_model.dart';
+export 'schedule_model.dart';
+export 'speciality_model.dart';
+export 'subject_employee_model.dart';
+export 'subject_group_model.dart';
+export 'subject_model.dart';

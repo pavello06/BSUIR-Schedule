@@ -1,28 +1,13 @@
-import 'package:bsuir_schedule/features/schedule/domain/entities/saved_schedule.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/network/network_info.dart';
-import '../../domain/entities/current_week.dart';
-import '../../domain/entities/employee.dart';
-import '../../domain/entities/schedule.dart';
-import '../../domain/entities/schedule_last_update.dart';
-import '../../domain/entities/group.dart';
+import '../../domain/entities/entities.dart';
 import '../../domain/repositories/schedule_repository.dart';
 import '../datasources/schedule_local_data_source.dart';
 import '../datasources/schedule_remote_data_source.dart';
-import '../mappers/current_week_mapper.dart';
-import '../mappers/employee_mapper.dart';
-import '../mappers/saved_schedule_mapper.dart';
-import '../mappers/schedule_last_update_mapper.dart';
-import '../mappers/schedule_mapper.dart';
-import '../mappers/group_mapper.dart';
-import '../models/current_week_model.dart';
-import '../models/employee_model.dart';
-import '../models/faculty_model.dart';
-import '../models/group_model.dart';
-import '../models/schedule_model.dart';
-import '../models/speciality_model.dart';
+import '../mappers/mappers.dart';
+import '../models/models.dart';
 
 class ScheduleRepositoryImpl extends ScheduleRepository {
   ScheduleRepositoryImpl({
@@ -41,6 +26,11 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
   }
 
   @override
+  Future<Either<Failure, void>> loadGroupSchedule(String groupNumber) {
+    return _updateSchedule(true, groupNumber);
+  }
+
+  @override
   Future<Either<Failure, Schedule>> updateGroupSchedule(String groupNumber) {
     return _updateSchedule(true, groupNumber);
   }
@@ -51,23 +41,25 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
   }
 
   @override
+  Future<Either<Failure, void>> loadEmployeeSchedule(String urlId) {
+    return _updateSchedule(false, urlId);
+  }
+
+  @override
   Future<Either<Failure, Schedule>> updateEmployeeSchedule(String urlId) {
     return _updateSchedule(false, urlId);
   }
 
-  Future<Either<Failure, Schedule>> _getSchedule(
-    bool isGroup,
-    String query,
-  ) async {
-    final List<GroupModel> groupList;
-    final Map<int, FacultyModel> facultyMap;
-    final Map<int, SpecialityModel> specialityMap;
+  Future<Either<Failure, Schedule>> _getSchedule(bool isGroup, String query) async {
+    final List<GroupModel> groups;
+    final List<FacultyModel> faculties;
+    final List<SpecialityModel> specialities;
     final ScheduleModel schedule;
 
     try {
-      groupList = await localDataSource.getGroupList();
-      facultyMap = await localDataSource.getFacultyMap();
-      specialityMap = await localDataSource.getSpecialityMap();
+      groups = await localDataSource.getGroups();
+      faculties = await localDataSource.getFaculties();
+      specialities = await localDataSource.getSpecialities();
 
       schedule = await (isGroup
           ? localDataSource.getGroupSchedule(query)
@@ -76,46 +68,31 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
       return _updateSchedule(isGroup, query);
     }
 
-    return _getPreparedSchedule(
-      isGroup,
-      groupList,
-      facultyMap,
-      specialityMap,
-      schedule,
-    );
+    return _getPreparedSchedule(isGroup, groups, faculties, specialities, schedule);
   }
 
-  Future<Either<Failure, Schedule>> _updateSchedule(
-    bool isGroup,
-    String query,
-  ) async {
+  Future<Either<Failure, Schedule>> _updateSchedule(bool isGroup, String query) async {
     if (!await networkInfo.isConnected) {
       return Left(ServerFailure());
     }
     try {
-      final groupList = await remoteDataSource.getGroupList();
-      final facultyMap = await remoteDataSource.getFacultyMap();
-      final specialityMap = await remoteDataSource.getSpecialityMap();
+      final groupList = await remoteDataSource.getGroups();
+      final facultyMap = await remoteDataSource.getFaculties();
+      final specialityMap = await remoteDataSource.getSpecialities();
 
       final schedule = await (isGroup
           ? remoteDataSource.getGroupSchedule(query)
           : remoteDataSource.getEmployeeSchedule(query));
 
-      await localDataSource.cachedGroupList(groupList);
-      await localDataSource.cachedFacultyMap(facultyMap);
-      await localDataSource.cachedSpecialityMap(specialityMap);
+      await localDataSource.cachedGroups(groupList);
+      await localDataSource.cachedFaculties(facultyMap);
+      await localDataSource.cachedSpecialities(specialityMap);
 
       await (isGroup
           ? localDataSource.cachedGroupSchedule(schedule)
           : localDataSource.cachedGroupSchedule(schedule));
 
-      return _getPreparedSchedule(
-        isGroup,
-        groupList,
-        facultyMap,
-        specialityMap,
-        schedule,
-      );
+      return _getPreparedSchedule(isGroup, groupList, facultyMap, specialityMap, schedule);
     } catch (_) {
       return Left(ServerFailure());
     }
@@ -123,77 +100,77 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
 
   Future<Either<Failure, Schedule>> _getPreparedSchedule(
     bool isGroup,
-    List<GroupModel> groupList,
-    Map<int, FacultyModel> facultyMap,
-    Map<int, SpecialityModel> specialityMap,
+    List<GroupModel> groups,
+    List<FacultyModel> faculties,
+    List<SpecialityModel> specialities,
     ScheduleModel schedule,
   ) async {
+    final facultyMap = _getFacultyMap(faculties);
+    final specialityMap = _getSpecialityMap(specialities);
+
     final groupMap = <String, Group>{};
-    for (final group in groupList) {
-      groupMap[group.name] = GroupMapper.toEntity(
+    for (final group in groups) {
+      groupMap[group.name!] = GroupMapper.toEntity(
         group: group,
-        faculty: facultyMap[group.facultyId]!,
-        speciality: specialityMap[group.specialityDepartmentEducationFormId]!,
+        faculty: facultyMap[group.facultyId!]!,
+        speciality: specialityMap[group.specialityDepartmentEducationFormId!]!,
       );
     }
 
     return Right(
       isGroup
-          ? ScheduleMapper.toGroupSchedule(
-              schedule: schedule,
-              groupMap: groupMap,
-            )
-          : ScheduleMapper.toEmployeeSchedule(
-              schedule: schedule,
-              groupMap: groupMap,
-            ),
+          ? ScheduleMapper.toGroupSchedule(schedule: schedule, groupMap: groupMap)
+          : ScheduleMapper.toEmployeeSchedule(schedule: schedule, groupMap: groupMap),
     );
   }
 
   @override
-  Future<Either<Failure, List<Group>>> getGroupList() async {
-    final List<GroupModel> groupList;
-    final Map<int, FacultyModel> facultyMap;
-    final Map<int, SpecialityModel> specialityMap;
+  Future<Either<Failure, List<Group>>> getGroups() async {
+    final List<GroupModel> groups;
+    final List<FacultyModel> faculties;
+    final List<SpecialityModel> specialities;
 
     try {
-      groupList = await localDataSource.getGroupList();
-      facultyMap = await localDataSource.getFacultyMap();
-      specialityMap = await localDataSource.getSpecialityMap();
+      groups = await localDataSource.getGroups();
+      faculties = await localDataSource.getFaculties();
+      specialities = await localDataSource.getSpecialities();
     } catch (_) {
-      return updateGroupList();
+      return updateGroups();
     }
 
-    return _getPreparedGroupList(groupList, facultyMap, specialityMap);
+    return _getPreparedGroupList(groups, faculties, specialities);
   }
 
   @override
-  Future<Either<Failure, List<Group>>> updateGroupList() async {
+  Future<Either<Failure, List<Group>>> updateGroups() async {
     if (!await networkInfo.isConnected) {
       return Left(ServerFailure());
     }
     try {
-      final groupList = await remoteDataSource.getGroupList();
-      final facultyMap = await remoteDataSource.getFacultyMap();
-      final specialityMap = await remoteDataSource.getSpecialityMap();
+      final groups = await remoteDataSource.getGroups();
+      final faculties = await remoteDataSource.getFaculties();
+      final specialities = await remoteDataSource.getSpecialities();
 
-      await localDataSource.cachedGroupList(groupList);
-      await localDataSource.cachedFacultyMap(facultyMap);
-      await localDataSource.cachedSpecialityMap(specialityMap);
+      await localDataSource.cachedGroups(groups);
+      await localDataSource.cachedFaculties(faculties);
+      await localDataSource.cachedSpecialities(specialities);
 
-      return _getPreparedGroupList(groupList, facultyMap, specialityMap);
+      return _getPreparedGroupList(groups, faculties, specialities);
     } catch (_) {
       return Left(ServerFailure());
     }
   }
 
   Future<Either<Failure, List<Group>>> _getPreparedGroupList(
-    List<GroupModel> groupList,
-    Map<int, FacultyModel> facultyMap,
-    Map<int, SpecialityModel> specialityMap,
+    List<GroupModel> groups,
+    List<FacultyModel> faculties,
+    List<SpecialityModel> specialities,
   ) async {
+    final facultyMap = _getFacultyMap(faculties);
+    final specialityMap = _getSpecialityMap(specialities);
+
     final preparedGroupList = <Group>[];
-    for (final group in groupList) {
+    for (final group in groups) {
       preparedGroupList.add(
         GroupMapper.toEntity(
           group: group,
@@ -207,27 +184,27 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
   }
 
   @override
-  Future<Either<Failure, List<Employee>>> getEmployeeList() async {
+  Future<Either<Failure, List<Employee>>> getEmployees() async {
     final List<EmployeeModel> employeeList;
 
     try {
-      employeeList = await localDataSource.getEmployeeList();
+      employeeList = await localDataSource.getEmployees();
     } catch (_) {
-      return updateEmployeeList();
+      return updateEmployees();
     }
 
     return _getPreparedEmployeeList(employeeList);
   }
 
   @override
-  Future<Either<Failure, List<Employee>>> updateEmployeeList() async {
+  Future<Either<Failure, List<Employee>>> updateEmployees() async {
     if (!await networkInfo.isConnected) {
       return Left(ServerFailure());
     }
     try {
-      final employeeList = await remoteDataSource.getEmployeeList();
+      final employeeList = await remoteDataSource.getEmployees();
 
-      await localDataSource.cachedEmployeeList(employeeList);
+      await localDataSource.cachedEmployees(employeeList);
 
       return _getPreparedEmployeeList(employeeList);
     } catch (_) {
@@ -246,17 +223,29 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
     return Right(preparedEmployeeList);
   }
 
+  Map<int, FacultyModel> _getFacultyMap(List<FacultyModel> faculties) {
+    final Map<int, FacultyModel> facultyMap = {};
+    for (final faculty in faculties) {
+      facultyMap[faculty.id!] = faculty;
+    }
+    return facultyMap;
+  }
+
+  Map<int, SpecialityModel> _getSpecialityMap(List<SpecialityModel> specialities) {
+    final Map<int, SpecialityModel> specialityMap = {};
+    for (final speciality in specialities) {
+      specialityMap[speciality.id!] = speciality;
+    }
+    return specialityMap;
+  }
+
   @override
-  Future<Either<Failure, ScheduleLastUpdate>> getGroupScheduleLastUpdate(
-    String groupNumber,
-  ) {
+  Future<Either<Failure, ScheduleLastUpdate>> getGroupScheduleLastUpdate(String groupNumber) {
     return _getScheduleLastUpdate(true, groupNumber);
   }
 
   @override
-  Future<Either<Failure, ScheduleLastUpdate>> getEmployeeScheduleLastUpdate(
-    String urlId,
-  ) {
+  Future<Either<Failure, ScheduleLastUpdate>> getEmployeeScheduleLastUpdate(String urlId) {
     return _getScheduleLastUpdate(false, urlId);
   }
 
@@ -272,11 +261,7 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
           ? remoteDataSource.getGroupScheduleLastUpdate(query)
           : remoteDataSource.getEmployeeScheduleLastUpdate(query));
 
-      return Right(
-        ScheduleLastUpdateMapper.toEntity(
-          scheduleLastUpdate: scheduleLastUpdate,
-        ),
-      );
+      return Right(ScheduleLastUpdateMapper.toEntity(scheduleLastUpdate: scheduleLastUpdate));
     } catch (_) {
       return Left(ServerFailure());
     }
@@ -305,18 +290,30 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
   }
 
   @override
-  Future<Either<Failure, List<SavedSchedule>>> getSavedScheduleList() async {
+  Future<Either<Failure, List<SavedSchedule>>> getSavedSchedules() async {
     try {
-      final savedScheduleList = await localDataSource.getSavedScheduleList();
+      final savedScheduleList = await localDataSource.getSavedSchedules();
 
       return Right(
         savedScheduleList
-            .map(
-              (savedSchedule) =>
-                  SavedScheduleMapper.toEntity(savedSchedule: savedSchedule),
-            )
+            .map((savedSchedule) => SavedScheduleMapper.toEntity(savedSchedule: savedSchedule))
             .toList(),
       );
+    } catch (_) {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> cachedSavedSchedules(List<SavedSchedule> savedSchedules) async {
+    try {
+      await localDataSource.cachedSavedSchedules(
+        savedSchedules
+            .map((savedSchedule) => SavedScheduleMapper.toModel(savedSchedule: savedSchedule))
+            .toList(),
+      );
+
+      return Right(null);
     } catch (_) {
       return Left(CacheFailure());
     }

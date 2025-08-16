@@ -5,13 +5,13 @@ import '../../../../core/usecases/usecase.dart';
 import '../entities/group.dart';
 import '../repositories/schedule_repository.dart';
 
-class UpdateGroupList extends UseCase<List<Group>, NoParams> {
-  UpdateGroupList({required this.repository});
+class GetGroups extends UseCase<List<Group>, NoParams> {
+  GetGroups({required this.repository});
 
   final ScheduleRepository repository;
 
   @override
   Future<Either<Failure, List<Group>>> call(NoParams params) async {
-    return await repository.updateGroupList();
+    return await repository.getGroups();
   }
 }
