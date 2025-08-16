@@ -6,6 +6,7 @@ import '../../../../core/errors/exceptions.dart';
 import '../models/current_week_model.dart';
 import '../models/employee_model.dart';
 import '../models/faculty_model.dart';
+import '../models/saved_schedule_model.dart';
 import '../models/schedule_model.dart';
 import '../models/speciality_model.dart';
 import '../models/group_model.dart';
@@ -17,6 +18,7 @@ const _cachedEmployeeList = 'cachedEmployeeList';
 const _cachedFacultyList = 'cachedFacultyList';
 const _cachedSpecialityList = 'cachedSpecialityList';
 const _cachedCurrentWeek = 'cachedCurrentWeek';
+const _cachedSavedScheduleList = 'cachedSavedScheduleList';
 
 abstract class ScheduleLocalDataSource {
   Future<ScheduleModel> getGroupSchedule(String groupNumber);
@@ -46,6 +48,8 @@ abstract class ScheduleLocalDataSource {
   Future<CurrentWeekModel> getCurrentWeek();
 
   Future<void> cachedCurrentWeek(CurrentWeekModel currentWeek);
+
+  Future<List<SavedScheduleModel>> getSavedScheduleList();
 }
 
 class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
@@ -59,9 +63,7 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<void> cachedGroupSchedule(
-    ScheduleModel schedule,
-  ) async {
+  Future<void> cachedGroupSchedule(ScheduleModel schedule) async {
     await sharedPreferences.setString(
       '$_cachedGroupSchedule${schedule.studentGroupDto!.name}',
       json.encode(schedule.toJson()),
@@ -74,9 +76,7 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<void> cachedEmployeeSchedule(
-    ScheduleModel schedule,
-  ) async {
+  Future<void> cachedEmployeeSchedule(ScheduleModel schedule) async {
     await sharedPreferences.setString(
       '$_cachedEmployeeSchedule${schedule.employeeDto!.urlId}',
       json.encode(schedule.toJson()),
@@ -208,5 +208,22 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
       _cachedCurrentWeek,
       json.encode(currentWeek.toJson()),
     );
+  }
+
+  @override
+  Future<List<SavedScheduleModel>> getSavedScheduleList() async {
+    final response = await sharedPreferences.getStringList(
+      _cachedSavedScheduleList,
+    );
+    if (response == null) {
+      return <SavedScheduleModel>[];
+    }
+
+    return (response as List)
+        .map(
+          (savedSchedule) =>
+              SavedScheduleModel.fromJson(json.decode(savedSchedule)),
+        )
+        .toList();
   }
 }
