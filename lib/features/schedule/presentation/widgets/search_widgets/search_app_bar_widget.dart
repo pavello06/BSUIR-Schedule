@@ -5,16 +5,18 @@ import '../../../../../core/extensions/build_context_extension.dart';
 import '../../bloc/search_bloc/search_bloc.dart';
 import '../../bloc/search_bloc/search_event.dart';
 
-class SearchAppBarWidget extends StatelessWidget
-    implements PreferredSizeWidget {
+class SearchAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const SearchAppBarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: IconButton(onPressed: () {
-        Navigator.pop(context);
-      }, icon: Icon(Icons.arrow_back)),
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: Icon(Icons.arrow_back),
+      ),
       title: Text(
         context.locale.addingSchedule,
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

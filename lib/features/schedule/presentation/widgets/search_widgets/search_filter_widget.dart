@@ -27,9 +27,7 @@ class SearchFilterWidget extends StatelessWidget {
             animation: pageController,
             builder: (context, child) {
               final position =
-                  (pageController.hasClients ? pageController.page ?? 0 : 0) *
-                  mq.width *
-                  0.5;
+                  (pageController.hasClients ? pageController.page ?? 0 : 0) * mq.width * 0.5;
 
               return Transform.translate(
                 offset: Offset(position, 0),

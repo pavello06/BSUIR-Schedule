@@ -7,9 +7,10 @@ import '../../../../core/themes/app_colors.dart';
 import '../bloc/saved_schedules_bloc/saved_schedules_bloc.dart';
 import '../bloc/saved_schedules_bloc/saved_schedules_event.dart';
 import '../bloc/saved_schedules_bloc/saved_schedules_state.dart';
+import '../widgets/circle_button_widget.dart';
 import '../widgets/saved_schedules_widgets/saved_schedules_app_bar_widget.dart';
-import '../widgets/search_employee_card_widget.dart';
-import '../widgets/search_group_card_widget.dart';
+import '../widgets/employee_card_widget.dart';
+import '../widgets/group_card_widget.dart';
 
 class SavedSchedulesPage extends StatelessWidget {
   const SavedSchedulesPage({super.key});
@@ -43,11 +44,15 @@ class SavedSchedulesPage extends StatelessWidget {
         itemCount: state.savedScheduleList.length,
         itemBuilder: (BuildContext context, int index) {
           return state.savedScheduleList[index].isGroup
-              ? SearchGroupCardWidget(
+              ? GroupCardWidget(
                   group: state.savedScheduleList[index].group!,
+                  onTap: () {},
+                  action: CircleButtonWidget(onTap: () {}, icon: Icons.more_vert_outlined),
                 )
-              : SearchEmployeeCardWidget(
+              : EmployeeCardWidget(
                   employee: state.savedScheduleList[index].employee!,
+                  onTap: () {},
+                  action: CircleButtonWidget(onTap: () {}, icon: Icons.more_vert_outlined),
                 );
         },
       );

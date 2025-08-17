@@ -8,20 +8,17 @@ import '../../../../core/utils/dialog_util.dart';
 import '../bloc/search_bloc/search_bloc.dart';
 import '../bloc/search_bloc/search_event.dart';
 import '../bloc/search_bloc/search_state.dart';
+import '../widgets/employee_card_widget.dart';
+import '../widgets/group_card_widget.dart';
 import '../widgets/search_widgets/search_app_bar_widget.dart';
-import '../widgets/search_employee_card_widget.dart';
 import '../widgets/search_widgets/search_filter_widget.dart';
-import '../widgets/search_group_card_widget.dart';
 import '../widgets/search_widgets/search_text_field_widget.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({super.key});
 
   final _pageController = PageController();
-  final _textEditingControllers = [
-    TextEditingController(),
-    TextEditingController(),
-  ];
+  final _textEditingControllers = [TextEditingController(), TextEditingController()];
 
   @override
   Widget build(BuildContext context) {
@@ -54,18 +51,10 @@ class SearchPage extends StatelessWidget {
     if (state is InitialState) {
       context.read<SearchBloc>().add(GetListsEvent());
     } else if (state is LoadingState) {
-      widgetForGroup = getLoadingListWidget(
-        context,
-        state as WithListsState,
-        true,
-      );
+      widgetForGroup = getLoadingListWidget(context, state as WithListsState, true);
       widgetForEmployee = getLoadingListWidget(context, state, false);
     } else if (state is LoadedState) {
-      widgetForGroup = getListWidget(
-        context,
-        state as WithListsState,
-        true,
-      );
+      widgetForGroup = getListWidget(context, state as WithListsState, true);
       widgetForEmployee = getListWidget(context, state, false);
     } else if (state is EmptyState) {
       final widget = getEmptyWidget(context);
@@ -74,9 +63,7 @@ class SearchPage extends StatelessWidget {
       widgetForEmployee = widget;
     }
 
-    if (state is LoadedState &&
-        state.hasError != null &&
-        !state.hasError!) {
+    if (state is LoadedState && state.hasError != null && !state.hasError!) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         DialogUtil.showSnackBar(
           context,
@@ -84,9 +71,7 @@ class SearchPage extends StatelessWidget {
           context.locale.searchSuccess,
         );
       });
-    } else if (state is LoadedState &&
-            state.hasError != null &&
-            state.hasError! ||
+    } else if (state is LoadedState && state.hasError != null && state.hasError! ||
         state is EmptyState) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         DialogUtil.showSnackBar(
@@ -118,15 +103,10 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  Widget getLoadingListWidget(
-    BuildContext context,
-    WithListsState state,
-    bool isGroup,
-  ) {
+  Widget getLoadingListWidget(BuildContext context, WithListsState state, bool isGroup) {
     return Stack(
       children: [
-        if ((state as LoadingState).hasData)
-          getListWidget(context, state, isGroup),
+        if ((state as LoadingState).hasData) getListWidget(context, state, isGroup),
         Positioned(
           top: 40,
           child: Container(
@@ -142,11 +122,7 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  Widget getListWidget(
-    BuildContext context,
-    WithListsState state,
-    bool isGroup,
-  ) {
+  Widget getListWidget(BuildContext context, WithListsState state, bool isGroup) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -160,26 +136,40 @@ class SearchPage extends StatelessWidget {
 
         Text(
           isGroup
-              ? context.locale.foundedGroups(state.preparedGroupList!.length)
-              : context.locale.foundedTeachers(
-                  state.preparedEmployeeList!.length,
-                ),
+              ? context.locale.foundedGroups(state.foundedGroups!.length)
+              : context.locale.foundedTeachers(state.foundedEmployees!.length),
         ),
 
         const SizedBox(height: 5),
 
         Expanded(
           child: ListView.builder(
-            itemCount: isGroup
-                ? state.preparedGroupList!.length
-                : state.preparedEmployeeList!.length,
+            itemCount: isGroup ? state.foundedGroups!.length : state.foundedEmployees!.length,
             itemBuilder: (BuildContext context, int index) {
               return isGroup
-                  ? SearchGroupCardWidget(
-                      group: state.preparedGroupList![index],
+                  ? GroupCardWidget(
+                      group: state.foundedGroups![index],
+                      onTap: () {
+                        context.read<SearchBloc>().add(
+                          SaveScheduleEvent(
+                            isGroup: true,
+                            group: state.foundedGroups![index],
+                            query: state.foundedGroups![index].name,
+                          ),
+                        );
+                      },
                     )
-                  : SearchEmployeeCardWidget(
-                      employee: state.preparedEmployeeList![index],
+                  : EmployeeCardWidget(
+                      employee: state.foundedEmployees![index],
+                      onTap: () {
+                        context.read<SearchBloc>().add(
+                          SaveScheduleEvent(
+                            isGroup: false,
+                            employee: state.foundedEmployees![index],
+                            query: state.foundedEmployees![index].urlId,
+                          ),
+                        );
+                      },
                     );
             },
           ),

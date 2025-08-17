@@ -25,9 +25,7 @@ class SearchTextFieldWidget extends StatelessWidget {
       controller: textEditingController,
       decoration: InputDecoration(
         hintText: context.locale.search,
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.primaryColor),
-        ),
+        enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppColors.primaryColor)),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
         ),
@@ -40,12 +38,11 @@ class SearchTextFieldWidget extends StatelessWidget {
 
   void _search(BuildContext context, String query) {
     context.read<SearchBloc>().add(
-      isGroup
-          ? SearchGroupListEvent(
-              query: query,
-              words: {'course': context.locale.course},
-            )
-          : SearchEmployeeListEvent(query: query, words: {}),
+      SearchListEvent(
+        isGroup: isGroup,
+        query: query,
+        words: isGroup ? {'course': context.locale.course} : {},
+      ),
     );
   }
 }
