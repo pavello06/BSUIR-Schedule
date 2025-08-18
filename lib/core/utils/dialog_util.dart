@@ -19,7 +19,7 @@ class DialogUtil {
         ),
         backgroundColor: context.theme.primaryColor,
         behavior: SnackBarBehavior.floating,
-        duration: Duration(milliseconds: 800),
+        duration: Duration(milliseconds: 500),
       ),
     );
   }

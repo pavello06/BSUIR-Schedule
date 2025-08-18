@@ -36,6 +36,15 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
   }
 
   @override
+  Future<Either<Failure, void>> removeGroupSchedule(String groupNumber) async {
+    try {
+      return Right(await localDataSource.removeGroupSchedule(groupNumber));
+    } catch (_) {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, Schedule>> getEmployeeSchedule(String urlId) {
     return _getSchedule(false, urlId);
   }
@@ -48,6 +57,15 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
   @override
   Future<Either<Failure, Schedule>> updateEmployeeSchedule(String urlId) {
     return _updateSchedule(false, urlId);
+  }
+
+  @override
+  Future<Either<Failure, void>> removeEmployeeSchedule(String urlId) async {
+    try {
+      return Right(await localDataSource.removeEmployeeSchedule(urlId));
+    } catch (_) {
+      return Left(CacheFailure());
+    }
   }
 
   Future<Either<Failure, Schedule>> _getSchedule(bool isGroup, String query) async {
@@ -84,13 +102,13 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
           ? remoteDataSource.getGroupSchedule(query)
           : remoteDataSource.getEmployeeSchedule(query));
 
-      await localDataSource.cachedGroups(groupList);
-      await localDataSource.cachedFaculties(facultyMap);
-      await localDataSource.cachedSpecialities(specialityMap);
+      await localDataSource.setGroups(groupList);
+      await localDataSource.setFaculties(facultyMap);
+      await localDataSource.setSpecialities(specialityMap);
 
       await (isGroup
-          ? localDataSource.cachedGroupSchedule(schedule)
-          : localDataSource.cachedGroupSchedule(schedule));
+          ? localDataSource.setGroupSchedule(schedule)
+          : localDataSource.setGroupSchedule(schedule));
 
       return _getPreparedSchedule(isGroup, groupList, facultyMap, specialityMap, schedule);
     } catch (_) {
@@ -151,9 +169,9 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
       final faculties = await remoteDataSource.getFaculties();
       final specialities = await remoteDataSource.getSpecialities();
 
-      await localDataSource.cachedGroups(groups);
-      await localDataSource.cachedFaculties(faculties);
-      await localDataSource.cachedSpecialities(specialities);
+      await localDataSource.setGroups(groups);
+      await localDataSource.setFaculties(faculties);
+      await localDataSource.setSpecialities(specialities);
 
       return _getPreparedGroupList(groups, faculties, specialities);
     } catch (_) {
@@ -204,7 +222,7 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
     try {
       final employeeList = await remoteDataSource.getEmployees();
 
-      await localDataSource.cachedEmployees(employeeList);
+      await localDataSource.setEmployees(employeeList);
 
       return _getPreparedEmployeeList(employeeList);
     } catch (_) {
@@ -274,7 +292,7 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
       try {
         currentWeek = await remoteDataSource.getCurrentWeek();
 
-        await localDataSource.cachedCurrentWeek(currentWeek);
+        await localDataSource.setCurrentWeek(currentWeek);
       } catch (_) {
         return Left(ServerFailure());
       }
@@ -305,9 +323,9 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
   }
 
   @override
-  Future<Either<Failure, void>> cachedSavedSchedules(List<SavedSchedule> savedSchedules) async {
+  Future<Either<Failure, void>> setSavedSchedules(List<SavedSchedule> savedSchedules) async {
     try {
-      await localDataSource.cachedSavedSchedules(
+      await localDataSource.setSavedSchedules(
         savedSchedules
             .map((savedSchedule) => SavedScheduleMapper.toModel(savedSchedule: savedSchedule))
             .toList(),

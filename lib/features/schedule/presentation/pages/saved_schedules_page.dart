@@ -19,10 +19,13 @@ class SavedSchedulesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SavedSchedulesAppBarWidget(),
-      body: BlocBuilder<SavedSchedulesBloc, SavedSchedulesState>(
-        builder: (context, state) {
-          return processState(context, state);
-        },
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: BlocBuilder<SavedSchedulesBloc, SavedSchedulesState>(
+          builder: (context, state) {
+            return processState(context, state);
+          },
+        ),
       ),
     );
   }
@@ -46,13 +49,40 @@ class SavedSchedulesPage extends StatelessWidget {
           return state.savedScheduleList[index].isGroup
               ? GroupCardWidget(
                   group: state.savedScheduleList[index].group!,
-                  onTap: () {},
-                  action: CircleButtonWidget(onTap: () {}, icon: Icons.more_vert_outlined),
+                  onTap: () {
+                    context.read<SavedSchedulesBloc>().add(
+                      RemoveScheduleEvent(
+                        isGroup: true,
+                        query: state.savedScheduleList[index].group!.name,
+                      ),
+                    );
+                  },
+                  action: CircleButtonWidget(
+                    onTap: () {
+                      context.read<SavedSchedulesBloc>().add(
+                        RemoveScheduleEvent(
+                          isGroup: true,
+                          query: state.savedScheduleList[index].group!.name,
+                        ),
+                      );
+                    },
+                    icon: Icons.more_vert_outlined,
+                  ),
                 )
               : EmployeeCardWidget(
                   employee: state.savedScheduleList[index].employee!,
                   onTap: () {},
-                  action: CircleButtonWidget(onTap: () {}, icon: Icons.more_vert_outlined),
+                  action: CircleButtonWidget(
+                    onTap: () {
+                      context.read<SavedSchedulesBloc>().add(
+                        RemoveScheduleEvent(
+                          isGroup: false,
+                          query: state.savedScheduleList[index].employee!.urlId,
+                        ),
+                      );
+                    },
+                    icon: Icons.more_vert_outlined,
+                  ),
                 );
         },
       );

@@ -9,13 +9,13 @@ class CircleButtonWidget extends StatelessWidget {
     required this.icon,
   });
 
-  final Function onTap;
+  final GestureTapCallback? onTap;
   final IconData icon;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(

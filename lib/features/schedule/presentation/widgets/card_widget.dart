@@ -29,28 +29,27 @@ class CardWidget extends StatelessWidget {
       margin: const EdgeInsets.all(4),
       child: GestureDetector(
         onTap: onTap,
+        behavior: HitTestBehavior.translucent,
         child: Padding(
           padding: const EdgeInsets.all(8),
-          child: IntrinsicHeight(
-            child: Row(
-              children: [
-                PhotoWidget(
-                  isNetworkPhoto: isNetworkPhoto,
-                  pathToPhoto: pathToPhoto,
-                  errorPhoto: errorPhoto,
-                ),
+          child: Row(
+            children: [
+              PhotoWidget(
+                isNetworkPhoto: isNetworkPhoto,
+                pathToPhoto: pathToPhoto,
+                errorPhoto: errorPhoto,
+              ),
 
-                const SizedBox(width: 10),
+              const SizedBox(width: 10),
 
-                Expanded(
-                  child: Padding(padding: const EdgeInsets.symmetric(vertical: 4), child: content),
-                ),
+              Expanded(
+                child: Padding(padding: const EdgeInsets.symmetric(vertical: 4), child: content),
+              ),
 
-                const SizedBox(width: 10),
+              const SizedBox(width: 10),
 
-                ?action,
-              ],
-            ),
+              ?action,
+            ],
           ),
         ),
       ),

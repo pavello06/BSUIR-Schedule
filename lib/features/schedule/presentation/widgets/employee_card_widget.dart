@@ -20,8 +20,8 @@ class EmployeeCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardWidget(
       onTap: onTap,
-      isNetworkPhoto: false,
-      pathToPhoto: '',
+      isNetworkPhoto: true,
+      pathToPhoto: employee.photoLink,
       errorPhoto: Icons.person,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

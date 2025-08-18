@@ -13,7 +13,7 @@ class SearchAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
     return AppBar(
       leading: IconButton(
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.pop(context, true);
         },
         icon: Icon(Icons.arrow_back),
       ),

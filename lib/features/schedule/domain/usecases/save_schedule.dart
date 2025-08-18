@@ -37,7 +37,7 @@ class SaveSchedule extends UseCase<void, SaveScheduleParams> {
           isActive: false,
         ),
       );
-      await repository.cachedSavedSchedules(savedSchedules);
+      await repository.setSavedSchedules(savedSchedules);
 
       return Right(null);
     });

@@ -17,35 +17,39 @@ const _pathToSavedSchedules = 'savedSchedules';
 abstract class ScheduleLocalDataSource {
   Future<ScheduleModel> getGroupSchedule(String groupNumber);
 
-  Future<void> cachedGroupSchedule(ScheduleModel schedule);
+  Future<void> setGroupSchedule(ScheduleModel schedule);
+
+  Future<void> removeGroupSchedule(String groupNumber);
 
   Future<ScheduleModel> getEmployeeSchedule(String urlId);
 
-  Future<void> cachedEmployeeSchedule(ScheduleModel schedule);
+  Future<void> setEmployeeSchedule(ScheduleModel schedule);
+
+  Future<void> removeEmployeeSchedule(String urlId);
 
   Future<List<GroupModel>> getGroups();
 
-  Future<void> cachedGroups(List<GroupModel> groups);
+  Future<void> setGroups(List<GroupModel> groups);
 
   Future<List<EmployeeModel>> getEmployees();
 
-  Future<void> cachedEmployees(List<EmployeeModel> employees);
+  Future<void> setEmployees(List<EmployeeModel> employees);
 
   Future<List<FacultyModel>> getFaculties();
 
-  Future<void> cachedFaculties(List<FacultyModel> faculties);
+  Future<void> setFaculties(List<FacultyModel> faculties);
 
   Future<List<SpecialityModel>> getSpecialities();
 
-  Future<void> cachedSpecialities(List<SpecialityModel> specialities);
+  Future<void> setSpecialities(List<SpecialityModel> specialities);
 
   Future<CurrentWeekModel> getCurrentWeek();
 
-  Future<void> cachedCurrentWeek(CurrentWeekModel currentWeek);
+  Future<void> setCurrentWeek(CurrentWeekModel currentWeek);
 
   Future<List<SavedScheduleModel>> getSavedSchedules();
 
-  Future<void> cachedSavedSchedules(List<SavedScheduleModel> savedSchedules);
+  Future<void> setSavedSchedules(List<SavedScheduleModel> savedSchedules);
 }
 
 class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
@@ -59,11 +63,16 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<void> cachedGroupSchedule(ScheduleModel schedule) async {
+  Future<void> setGroupSchedule(ScheduleModel schedule) async {
     await sharedPreferences.setString(
       '$_pathToGroupSchedule${schedule.studentGroupDto!.name}',
       json.encode(schedule.toJson()),
     );
+  }
+
+  @override
+  Future<void> removeGroupSchedule(String groupNumber) async {
+    await sharedPreferences.remove('$_pathToGroupSchedule$groupNumber');
   }
 
   @override
@@ -72,11 +81,16 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<void> cachedEmployeeSchedule(ScheduleModel schedule) async {
+  Future<void> setEmployeeSchedule(ScheduleModel schedule) async {
     await sharedPreferences.setString(
       '$_pathToEmployeeSchedule${schedule.employeeDto!.urlId}',
       json.encode(schedule.toJson()),
     );
+  }
+
+  @override
+  Future<void> removeEmployeeSchedule(String urlId) async {
+    await sharedPreferences.remove('$_pathToEmployeeSchedule$urlId');
   }
 
   Future<ScheduleModel> _getSchedule(bool isGroup, String query) async {
@@ -102,7 +116,7 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<void> cachedGroups(List<GroupModel> groups) async {
+  Future<void> setGroups(List<GroupModel> groups) async {
     await sharedPreferences.setStringList(
       _pathToGroups,
       groups.map((group) => json.encode(group.toJson())).toList(),
@@ -122,7 +136,7 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<void> cachedEmployees(List<EmployeeModel> employees) async {
+  Future<void> setEmployees(List<EmployeeModel> employees) async {
     await sharedPreferences.setStringList(
       _pathToEmployees,
       employees.map((employee) => json.encode(employee.toJson())).toList(),
@@ -142,7 +156,7 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<void> cachedFaculties(List<FacultyModel> faculties) {
+  Future<void> setFaculties(List<FacultyModel> faculties) {
     return sharedPreferences.setStringList(
       _pathToFaculties,
       faculties.map((faculty) => json.encode(faculty.toJson())).toList(),
@@ -162,7 +176,7 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<void> cachedSpecialities(List<SpecialityModel> specialities) async {
+  Future<void> setSpecialities(List<SpecialityModel> specialities) async {
     await sharedPreferences.setStringList(
       _pathToSpecialities,
       specialities.map((speciality) => json.encode(speciality.toJson())).toList(),
@@ -181,7 +195,7 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<void> cachedCurrentWeek(CurrentWeekModel currentWeek) async {
+  Future<void> setCurrentWeek(CurrentWeekModel currentWeek) async {
     await sharedPreferences.setString(_pathToCurrentWeek, json.encode(currentWeek.toJson()));
   }
 
@@ -198,7 +212,7 @@ class ScheduleLocalDataSourceImpl extends ScheduleLocalDataSource {
   }
 
   @override
-  Future<void> cachedSavedSchedules(List<SavedScheduleModel> savedSchedules) async {
+  Future<void> setSavedSchedules(List<SavedScheduleModel> savedSchedules) async {
     await sharedPreferences.setStringList(
       _pathToSavedSchedules,
       savedSchedules.map((savedSchedule) => json.encode(savedSchedule.toJson())).toList(),

@@ -11,11 +11,15 @@ abstract class ScheduleRepository {
 
   Future<Either<Failure, Schedule>> updateGroupSchedule(String groupNumber);
 
+  Future<Either<Failure, void>> removeGroupSchedule(String groupNumber);
+
   Future<Either<Failure, Schedule>> getEmployeeSchedule(String urlId);
 
   Future<Either<Failure, void>> loadEmployeeSchedule(String urlId);
 
   Future<Either<Failure, Schedule>> updateEmployeeSchedule(String urlId);
+
+  Future<Either<Failure, void>> removeEmployeeSchedule(String urlId);
 
   Future<Either<Failure, List<Group>>> getGroups();
 
@@ -33,5 +37,5 @@ abstract class ScheduleRepository {
 
   Future<Either<Failure, List<SavedSchedule>>> getSavedSchedules();
 
-  Future<Either<Failure, void>> cachedSavedSchedules(List<SavedSchedule> savedSchedules);
+  Future<Either<Failure, void>> setSavedSchedules(List<SavedSchedule> savedSchedules);
 }

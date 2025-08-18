@@ -7,7 +7,7 @@ export 'get_saved_schedules.dart';
 export 'save_schedule.dart';
 export 'search_employees.dart';
 export 'search_groups.dart';
-export 'unsave_schedule.dart';
+export 'remove_schedule.dart';
 export 'update_employee_schedule.dart';
 export 'update_employees.dart';
 export 'update_group_schedule.dart';
