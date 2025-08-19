@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'subject.dart';
+import 'subject/subject.dart';
 
 class StudyDay extends Equatable {
   const StudyDay({required this.dateTime, required this.subjects});

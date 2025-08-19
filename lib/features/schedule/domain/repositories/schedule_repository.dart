@@ -7,17 +7,13 @@ import '../entities/entities.dart';
 abstract class ScheduleRepository {
   Future<Either<Failure, Schedule>> getGroupSchedule(String groupNumber);
 
-  Future<Either<Failure, void>> loadGroupSchedule(String groupNumber);
-
-  Future<Either<Failure, Schedule>> updateGroupSchedule(String groupNumber);
+  Future<Either<Failure, void>> setGroupSchedule(String groupNumber);
 
   Future<Either<Failure, void>> removeGroupSchedule(String groupNumber);
 
   Future<Either<Failure, Schedule>> getEmployeeSchedule(String urlId);
 
-  Future<Either<Failure, void>> loadEmployeeSchedule(String urlId);
-
-  Future<Either<Failure, Schedule>> updateEmployeeSchedule(String urlId);
+  Future<Either<Failure, void>> setEmployeeSchedule(String urlId);
 
   Future<Either<Failure, void>> removeEmployeeSchedule(String urlId);
 

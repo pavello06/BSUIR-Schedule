@@ -3,9 +3,9 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../entities/employee.dart';
-import '../entities/group.dart';
-import '../entities/saved_schedule.dart';
+import '../entities/employee/employee.dart';
+import '../entities/group/group.dart';
+import '../entities/schedule/saved_schedule.dart';
 import '../repositories/schedule_repository.dart';
 
 class SaveSchedule extends UseCase<void, SaveScheduleParams> {
@@ -25,11 +25,12 @@ class SaveSchedule extends UseCase<void, SaveScheduleParams> {
       }
 
       await (params.isGroup
-          ? repository.loadGroupSchedule(params.query)
-          : repository.loadEmployeeSchedule(params.query));
+          ? repository.setGroupSchedule(params.query)
+          : repository.setEmployeeSchedule(params.query));
 
       savedSchedules.add(
         SavedSchedule(
+          title: null,
           isGroup: params.isGroup,
           group: params.group,
           employee: params.employee,

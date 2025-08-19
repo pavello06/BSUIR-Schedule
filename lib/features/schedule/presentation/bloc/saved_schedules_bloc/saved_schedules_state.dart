@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/entities/saved_schedule.dart';
+import '../../../domain/entities/schedule/saved_schedule.dart';
 
 abstract class SavedSchedulesState extends Equatable {
   const SavedSchedulesState();

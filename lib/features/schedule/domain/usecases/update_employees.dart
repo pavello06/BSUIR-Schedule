@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../entities/employee.dart';
+import '../entities/employee/employee.dart';
 import '../repositories/schedule_repository.dart';
 
 class UpdateEmployees extends UseCase<List<Employee>, NoParams> {

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/extensions/build_context_extension.dart';
-import '../../bloc/saved_schedules_bloc/saved_schedules_bloc.dart';
-import '../../bloc/saved_schedules_bloc/saved_schedules_event.dart';
 
 class SavedSchedulesAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const SavedSchedulesAppBarWidget({super.key});

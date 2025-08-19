@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../entities/saved_schedule.dart';
+import '../entities/schedule/saved_schedule.dart';
 import '../repositories/schedule_repository.dart';
 
 class GetSavedSchedules extends UseCase<List<SavedSchedule>, NoParams> {

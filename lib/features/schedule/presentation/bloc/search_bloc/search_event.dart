@@ -1,5 +1,5 @@
-import '../../../domain/entities/employee.dart';
-import '../../../domain/entities/group.dart';
+import '../../../domain/entities/employee/employee.dart';
+import '../../../domain/entities/group/group.dart';
 
 abstract class SearchEvent {}
 

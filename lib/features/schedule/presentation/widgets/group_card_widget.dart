@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/build_context_extension.dart';
-import '../../domain/entities/group.dart';
+import '../../domain/entities/group/group.dart';
 import 'card_widget.dart';
 
 class GroupCardWidget extends StatelessWidget {

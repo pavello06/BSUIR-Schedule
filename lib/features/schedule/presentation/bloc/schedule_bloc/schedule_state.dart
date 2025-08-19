@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/current_week.dart';
-import '../../../domain/entities/schedule.dart';
+import '../../../domain/entities/schedule/schedule.dart';
 import '../../../domain/entities/study_day.dart';
 
 abstract class ScheduleState extends Equatable {
@@ -12,7 +12,7 @@ abstract class ScheduleState extends Equatable {
 }
 
 abstract class WithCurrentWeekState extends ScheduleState {
-  const WithCurrentWeekState({required this.currentWeek});
+  const WithCurrentWeekState({this.currentWeek});
 
   final CurrentWeek? currentWeek;
 
@@ -22,38 +22,54 @@ abstract class WithCurrentWeekState extends ScheduleState {
 
 abstract class WithScheduleState extends WithCurrentWeekState {
   const WithScheduleState({
-    required super.currentWeek,
-    required this.schedule,
-    required this.lessonDayList,
-    required this.examDayList,
+    super.currentWeek,
+    this.schedule,
+    this.lessonDays,
+    this.examDays,
   });
 
   final Schedule? schedule;
-  final List<StudyDay>? lessonDayList;
-  final List<StudyDay>? examDayList;
+  final List<StudyDay>? lessonDays;
+  final List<StudyDay>? examDays;
 
   @override
-  List<Object?> get props => [...super.props, schedule, lessonDayList, examDayList];
+  List<Object?> get props => [...super.props, schedule, lessonDays, examDays];
 }
 
 class InitialState extends ScheduleState {}
 
 class LoadingState extends WithScheduleState {
   const LoadingState({
-    required super.currentWeek,
-    required super.schedule,
-    required super.lessonDayList,
-    required super.examDayList,
+    super.currentWeek,
+    super.schedule,
+    super.lessonDays,
+    super.examDays,
   });
+
+  LoadingState.fromState({WithScheduleState? state})
+    : super(
+        currentWeek: state?.currentWeek,
+        schedule: state?.schedule,
+        lessonDays: state?.lessonDays,
+        examDays: state?.examDays,
+      );
 }
 
 class LoadedState extends WithScheduleState {
   const LoadedState({
     required super.currentWeek,
     required super.schedule,
-    required super.lessonDayList,
-    required super.examDayList,
+    required super.lessonDays,
+    required super.examDays,
   });
+
+  LoadedState.fromState({required WithScheduleState state})
+    : super(
+        currentWeek: state.currentWeek,
+        schedule: state.schedule,
+        lessonDays: state.lessonDays,
+        examDays: state.examDays,
+      );
 }
 
 class EmptyState extends WithCurrentWeekState {

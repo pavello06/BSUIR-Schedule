@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/usecases/usecase.dart';
-import '../../../domain/entities/employee.dart';
-import '../../../domain/entities/group.dart';
+import '../../../domain/entities/employee/employee.dart';
+import '../../../domain/entities/group/group.dart';
 import '../../../domain/usecases/get_employees.dart';
 import '../../../domain/usecases/get_groups.dart';
 import '../../../domain/usecases/save_schedule.dart';

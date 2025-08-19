@@ -26,13 +26,8 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
   }
 
   @override
-  Future<Either<Failure, void>> loadGroupSchedule(String groupNumber) {
-    return _updateSchedule(true, groupNumber);
-  }
-
-  @override
-  Future<Either<Failure, Schedule>> updateGroupSchedule(String groupNumber) {
-    return _updateSchedule(true, groupNumber);
+  Future<Either<Failure, void>> setGroupSchedule(String groupNumber) {
+    return _setSchedule(true, groupNumber);
   }
 
   @override
@@ -50,13 +45,8 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
   }
 
   @override
-  Future<Either<Failure, void>> loadEmployeeSchedule(String urlId) {
-    return _updateSchedule(false, urlId);
-  }
-
-  @override
-  Future<Either<Failure, Schedule>> updateEmployeeSchedule(String urlId) {
-    return _updateSchedule(false, urlId);
+  Future<Either<Failure, void>> setEmployeeSchedule(String urlId) {
+    return _setSchedule(false, urlId);
   }
 
   @override
@@ -69,27 +59,22 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
   }
 
   Future<Either<Failure, Schedule>> _getSchedule(bool isGroup, String query) async {
-    final List<GroupModel> groups;
-    final List<FacultyModel> faculties;
-    final List<SpecialityModel> specialities;
-    final ScheduleModel schedule;
-
     try {
-      groups = await localDataSource.getGroups();
-      faculties = await localDataSource.getFaculties();
-      specialities = await localDataSource.getSpecialities();
+      final groups = await localDataSource.getGroups();
+      final faculties = await localDataSource.getFaculties();
+      final specialities = await localDataSource.getSpecialities();
 
-      schedule = await (isGroup
+      final schedule = await (isGroup
           ? localDataSource.getGroupSchedule(query)
           : localDataSource.getEmployeeSchedule(query));
-    } catch (_) {
-      return _updateSchedule(isGroup, query);
-    }
 
-    return _getPreparedSchedule(isGroup, groups, faculties, specialities, schedule);
+      return _getPreparedSchedule(isGroup, groups, faculties, specialities, schedule);
+    } catch (_) {
+      return Left(CacheFailure());
+    }
   }
 
-  Future<Either<Failure, Schedule>> _updateSchedule(bool isGroup, String query) async {
+  Future<Either<Failure, void>> _setSchedule(bool isGroup, String query) async {
     if (!await networkInfo.isConnected) {
       return Left(ServerFailure());
     }
@@ -110,7 +95,7 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
           ? localDataSource.setGroupSchedule(schedule)
           : localDataSource.setGroupSchedule(schedule));
 
-      return _getPreparedSchedule(isGroup, groupList, facultyMap, specialityMap, schedule);
+      return Right(null);
     } catch (_) {
       return Left(ServerFailure());
     }
@@ -128,10 +113,10 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
 
     final groupMap = <String, Group>{};
     for (final group in groups) {
-      groupMap[group.name!] = GroupMapper.toEntity(
+      groupMap[group.name] = GroupMapper.toEntity(
         group: group,
-        faculty: facultyMap[group.facultyId!]!,
-        speciality: specialityMap[group.specialityDepartmentEducationFormId!]!,
+        faculty: facultyMap[group.facultyId]!,
+        speciality: specialityMap[group.specialityDepartmentEducationFormId]!,
       );
     }
 
@@ -244,7 +229,7 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
   Map<int, FacultyModel> _getFacultyMap(List<FacultyModel> faculties) {
     final Map<int, FacultyModel> facultyMap = {};
     for (final faculty in faculties) {
-      facultyMap[faculty.id!] = faculty;
+      facultyMap[faculty.id] = faculty;
     }
     return facultyMap;
   }
@@ -252,7 +237,7 @@ class ScheduleRepositoryImpl extends ScheduleRepository {
   Map<int, SpecialityModel> _getSpecialityMap(List<SpecialityModel> specialities) {
     final Map<int, SpecialityModel> specialityMap = {};
     for (final speciality in specialities) {
-      specialityMap[speciality.id!] = speciality;
+      specialityMap[speciality.id] = speciality;
     }
     return specialityMap;
   }
