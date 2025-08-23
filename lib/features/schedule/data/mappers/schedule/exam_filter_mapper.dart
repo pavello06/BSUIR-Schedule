@@ -3,8 +3,6 @@ import '../../models/schedule/exam_filter_model.dart';
 
 class ExamFilterMapper {
   static ExamFilter toEntity({required ExamFilterModel examFilter}) {
-    return ExamFilter(
-      lessonTypeAbbrevs: examFilter.lessonTypeAbbrevs,
-    );
+    return ExamFilter(lessonTypeAbbrevs: examFilter.lessonTypeAbbrevs);
   }
 }

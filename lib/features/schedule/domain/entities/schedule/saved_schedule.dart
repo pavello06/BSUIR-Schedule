@@ -5,21 +5,21 @@ import '../group/group.dart';
 
 class SavedSchedule extends Equatable {
   const SavedSchedule({
-    required this.title,
+    required this.isActive,
+    required this.query,
     required this.isGroup,
     required this.group,
     required this.employee,
-    required this.query,
-    required this.isActive,
+    required this.title,
   });
 
-  final String? title;
+  final bool isActive;
+  final String query;
   final bool isGroup;
   final Group? group;
   final Employee? employee;
-  final String query;
-  final bool isActive;
+  final String? title;
 
   @override
-  List<Object?> get props => [title, isGroup, group, employee, query, isActive];
+  List<Object?> get props => [isActive, query, isGroup, group, employee, title];
 }

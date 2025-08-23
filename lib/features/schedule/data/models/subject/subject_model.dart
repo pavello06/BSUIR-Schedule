@@ -21,7 +21,7 @@ class SubjectModel {
     this.announcement,
   });
 
-  final List<String>? auditories;
+  final List<String> auditories;
   final String endLessonTime;
   final String lessonTypeAbbrev;
   final String? note;
@@ -40,7 +40,7 @@ class SubjectModel {
 
   factory SubjectModel.fromJson(Map<String, dynamic> json) {
     return SubjectModel(
-      auditories: json['auditories'] == null ? null : List<String>.from(json['auditories']),
+      auditories: List<String>.from(json['auditories']),
       endLessonTime: json['endLessonTime'],
       lessonTypeAbbrev: json['lessonTypeAbbrev'],
       note: json['note'],

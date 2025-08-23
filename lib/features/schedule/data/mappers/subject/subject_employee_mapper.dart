@@ -7,11 +7,7 @@ class SubjectEmployeeMapper {
       firstName: employee.firstName,
       lastName: employee.lastName,
       middleName: employee.middleName,
-      degreeAbbrev: employee.degreeAbbrev == null
-          ? null
-          : employee.degreeAbbrev!.isEmpty
-          ? null
-          : employee.degreeAbbrev,
+      degreeAbbrev: employee.degreeAbbrev.isEmpty ? null : employee.degreeAbbrev,
       rank: employee.rank,
       photoLink: employee.photoLink,
       academicDepartment: null,

@@ -7,11 +7,7 @@ class EmployeeMapper {
       firstName: employee.firstName,
       lastName: employee.lastName,
       middleName: employee.middleName,
-      degreeAbbrev: employee.degree == null
-          ? null
-          : employee.degree!.isEmpty
-          ? null
-          : employee.degree,
+      degreeAbbrev: employee.degree.isEmpty ? null : employee.degree,
       rank: employee.rank,
       photoLink: employee.photoLink,
       academicDepartment: employee.academicDepartment,
@@ -25,7 +21,7 @@ class EmployeeMapper {
       firstName: employee.firstName,
       lastName: employee.lastName,
       middleName: employee.middleName,
-      degree: employee.degreeAbbrev,
+      degree: employee.degreeAbbrev ?? '',
       rank: employee.rank,
       photoLink: employee.photoLink,
       academicDepartment: employee.academicDepartment!,

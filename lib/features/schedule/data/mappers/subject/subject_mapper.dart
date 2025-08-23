@@ -11,7 +11,7 @@ class SubjectMapper {
   static Lesson toLesson({required SubjectModel subject, required Map<String, Group> groupMap}) {
     return Lesson(
       weekNumbers: subject.weekNumber,
-      auditories: subject.auditories,
+      auditories: subject.auditories.isEmpty ? null : subject.auditories,
       startLessonTime: subject.startLessonTime,
       endLessonTime: subject.endLessonTime,
       lessonTypeAbbrev: subject.lessonTypeAbbrev,
@@ -33,7 +33,7 @@ class SubjectMapper {
   static Exam toExam({required SubjectModel subject, required Map<String, Group> groupMap}) {
     return Exam(
       weekNumbers: subject.weekNumber,
-      auditories: subject.auditories,
+      auditories: subject.auditories.isEmpty ? null : subject.auditories,
       startLessonTime: subject.startLessonTime,
       endLessonTime: subject.endLessonTime,
       lessonTypeAbbrev: subject.lessonTypeAbbrev,

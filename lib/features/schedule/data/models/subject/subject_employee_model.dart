@@ -20,8 +20,8 @@ class SubjectEmployeeModel {
   final String? middleName;
   final String lastName;
   final String photoLink;
-  final String? degree;
-  final String? degreeAbbrev;
+  final String degree;
+  final String degreeAbbrev;
   final String? rank;
   final String? email;
   final String urlId;

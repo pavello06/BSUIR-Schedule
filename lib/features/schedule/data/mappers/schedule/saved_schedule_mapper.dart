@@ -8,7 +8,8 @@ import '../group/speciality_mapper.dart';
 class SavedScheduleMapper {
   static SavedSchedule toEntity({required SavedScheduleModel savedSchedule}) {
     return SavedSchedule(
-      title: savedSchedule.title,
+      isActive: savedSchedule.isActive,
+      query: savedSchedule.query,
       isGroup: savedSchedule.isGroup,
       group: savedSchedule.isGroup
           ? GroupMapper.toEntity(
@@ -20,14 +21,14 @@ class SavedScheduleMapper {
       employee: !savedSchedule.isGroup
           ? EmployeeMapper.toEntity(employee: savedSchedule.employee!)
           : null,
-      query: savedSchedule.query,
-      isActive: savedSchedule.isActive,
+      title: savedSchedule.title,
     );
   }
 
   static SavedScheduleModel toModel({required SavedSchedule savedSchedule}) {
     return SavedScheduleModel(
-      title: savedSchedule.title,
+      isActive: savedSchedule.isActive,
+      query: savedSchedule.query,
       isGroup: savedSchedule.isGroup,
       group: savedSchedule.isGroup ? GroupMapper.toModel(group: savedSchedule.group!) : null,
       faculty: savedSchedule.isGroup
@@ -39,8 +40,7 @@ class SavedScheduleMapper {
       employee: !savedSchedule.isGroup
           ? EmployeeMapper.toModel(employee: savedSchedule.employee!)
           : null,
-      query: savedSchedule.query,
-      isActive: savedSchedule.isActive,
+      title: savedSchedule.title,
     );
   }
 }

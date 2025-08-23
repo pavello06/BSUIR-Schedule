@@ -33,7 +33,7 @@ class ScheduleModel {
   final Map<String, List<SubjectModel>>? previousSchedules;
   final String? currentTerm;
   final String? previousTerm;
-  final List<SubjectModel>? exams;
+  final List<SubjectModel> exams;
   final String? currentPeriod;
   final String? title;
   final LessonFilterModel? lessonFilter;
@@ -92,7 +92,7 @@ class ScheduleModel {
           ).map((k, v) => MapEntry<String, dynamic>(k, v.map((x) => x.toJson()).toList())),
     'currentTerm': currentTerm,
     'previousTerm': previousTerm,
-    'exams': exams!.map((x) => x.toJson()).toList(),
+    'exams': exams.map((x) => x.toJson()).toList(),
     'currentPeriod': currentPeriod,
     'title': title,
     'lessonFilter': lessonFilter,

@@ -16,7 +16,7 @@ class EmployeeModel {
   final String firstName;
   final String lastName;
   final String? middleName;
-  final String? degree;
+  final String degree;
   final String? rank;
   final String photoLink;
   final String? calendarId;

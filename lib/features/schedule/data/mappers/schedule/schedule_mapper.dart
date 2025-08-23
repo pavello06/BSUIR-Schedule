@@ -23,9 +23,11 @@ class ScheduleMapper {
       title: schedule.title,
       lessons: lessons,
       lessonFilter: _getLessonFilter(lessons, schedule),
-      exams: schedule.exams
-          ?.map((lesson) => SubjectMapper.toExam(subject: lesson, groupMap: groupMap))
-          .toList(),
+      exams: schedule.exams.isEmpty
+          ? null
+          : schedule.exams
+                .map((lesson) => SubjectMapper.toExam(subject: lesson, groupMap: groupMap))
+                .toList(),
       examFilter: _getExamFilter(schedule),
       lessonsStartDate: DateFormat('dd.MM.yyyy').parse(schedule.startDate),
       lessonsEndDate: DateFormat('dd.MM.yyyy').parse(schedule.endDate),
@@ -45,9 +47,11 @@ class ScheduleMapper {
       title: schedule.title,
       lessons: lessons,
       lessonFilter: _getLessonFilter(lessons, schedule),
-      exams: schedule.exams
-          ?.map((lesson) => SubjectMapper.toExam(subject: lesson, groupMap: groupMap))
-          .toList(),
+      exams: schedule.exams.isEmpty
+          ? null
+          : schedule.exams
+                .map((lesson) => SubjectMapper.toExam(subject: lesson, groupMap: groupMap))
+                .toList(),
       examFilter: _getExamFilter(schedule),
       lessonsStartDate: DateFormat('dd.MM.yyyy').parse(schedule.startDate),
       lessonsEndDate: DateFormat('dd.MM.yyyy').parse(schedule.endDate),
@@ -159,7 +163,7 @@ class ScheduleMapper {
     if (schedule.examFilter != null) {
       examFilter = ExamFilterMapper.toEntity(examFilter: schedule.examFilter!);
     } else {
-      if (schedule.exams != null) {
+      if (schedule.exams.isNotEmpty) {
         examFilter = ExamFilter(lessonTypeAbbrevs: {'Консультация', 'Экзамен'});
       } else {
         examFilter = null;
