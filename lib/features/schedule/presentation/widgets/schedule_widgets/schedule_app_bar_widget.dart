@@ -12,17 +12,23 @@ class ScheduleAppBarWidget extends StatelessWidget implements PreferredSizeWidge
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: IconButton(onPressed: () {}, icon: Icon(Icons.event_note)),
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/saved-schedules');
+        },
+        icon: Icon(Icons.event_note),
+      ),
       title: Column(
         children: [
           Text(
             '${DateUtil.getCurrentDayOfWeek(context.locale.localeName)} ${DateUtil.getCurrentDay(context.locale.localeName)}',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          Text(
-            '$week неделя',
-            style: TextStyle(color: AppColors.grey, fontSize: 14, fontWeight: FontWeight.bold),
-          ),
+          if (week != null)
+            Text(
+              context.locale.schedule_weekNumber(week!),
+              style: TextStyle(color: AppColors.grey, fontSize: 14, fontWeight: FontWeight.bold),
+            ),
         ],
       ),
       actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))],

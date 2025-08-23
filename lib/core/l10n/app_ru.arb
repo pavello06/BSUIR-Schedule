@@ -1,6 +1,24 @@
 {
   "courseNumber": "{number} курс",
 
+
+  "schedule_weekNumber": "{number} неделя",
+
+  "schedule_info": "Информация",
+  "schedule_faculty": "Факультет: {faculty}",
+  "schedule_speciality": "Специальность: {speciality}",
+  "schedule_course": "Курс: {course}",
+  "schedule_educationForm": "Форма обучения: {educationForm}",
+  "schedule_specialityCode": "Код специальности: {specialityCode}",
+  "schedule_termExist": "Семестр: с {startDate} по {endDate}",
+  "schedule_sessionExist": "Сессия: с {startDate} по {endDate}",
+  "schedule_examsExist": "Экзамены: добавлено",
+  "schedule_examsNotExist": "Экзамены: не добавлено",
+  "schedule_degree": "Степень: {degree}",
+  "schedule_rank": "Ранг: {rank}",
+  "schedule_email": "Email: {email}",
+
+
   "mySchedules": "Мои расписания",
   "savedSchedulesEmpty": "Вы не добавили ещё ни одного расписания",
 

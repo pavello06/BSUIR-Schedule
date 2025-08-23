@@ -14,6 +14,70 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String schedule_weekNumber(Object number) {
+    return '$number неделя';
+  }
+
+  @override
+  String get schedule_info => 'Информация';
+
+  @override
+  String schedule_faculty(Object faculty) {
+    return 'Факультет: $faculty';
+  }
+
+  @override
+  String schedule_speciality(Object speciality) {
+    return 'Специальность: $speciality';
+  }
+
+  @override
+  String schedule_course(Object course) {
+    return 'Курс: $course';
+  }
+
+  @override
+  String schedule_educationForm(Object educationForm) {
+    return 'Форма обучения: $educationForm';
+  }
+
+  @override
+  String schedule_specialityCode(Object specialityCode) {
+    return 'Код специальности: $specialityCode';
+  }
+
+  @override
+  String schedule_termExist(Object endDate, Object startDate) {
+    return 'Семестр: с $startDate по $endDate';
+  }
+
+  @override
+  String schedule_sessionExist(Object endDate, Object startDate) {
+    return 'Сессия: с $startDate по $endDate';
+  }
+
+  @override
+  String get schedule_examsExist => 'Экзамены: добавлено';
+
+  @override
+  String get schedule_examsNotExist => 'Экзамены: не добавлено';
+
+  @override
+  String schedule_degree(Object degree) {
+    return 'Степень: $degree';
+  }
+
+  @override
+  String schedule_rank(Object rank) {
+    return 'Ранг: $rank';
+  }
+
+  @override
+  String schedule_email(Object email) {
+    return 'Email: $email';
+  }
+
+  @override
   String get mySchedules => 'Мои расписания';
 
   @override

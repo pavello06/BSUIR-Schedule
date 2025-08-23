@@ -1,57 +1,56 @@
 import 'package:flutter/material.dart';
 
 import 'photo_widget.dart';
+import 'popup_menu_button_widget.dart';
 
 class CardWidget extends StatelessWidget {
   const CardWidget({
     super.key,
-    this.onTap,
     required this.isNetworkPhoto,
     required this.pathToPhoto,
     required this.errorPhoto,
-    required this.content,
-    this.action,
+    required this.title,
+    required this.subtitle,
+    required this.onTaps,
+    required this.icons,
+    required this.texts,
   });
-
-  final GestureTapCallback? onTap;
 
   final bool isNetworkPhoto;
   final String pathToPhoto;
   final IconData errorPhoto;
 
-  final Widget content;
+  final String title;
+  final Widget? subtitle;
 
-  final Widget? action;
+  final List<GestureTapCallback?> onTaps;
+  final List<Icon> icons;
+  final List<String> texts;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(4),
-      child: GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.translucent,
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            children: [
-              PhotoWidget(
-                isNetworkPhoto: isNetworkPhoto,
-                pathToPhoto: pathToPhoto,
-                errorPhoto: errorPhoto,
-              ),
-
-              const SizedBox(width: 10),
-
-              Expanded(
-                child: Padding(padding: const EdgeInsets.symmetric(vertical: 4), child: content),
-              ),
-
-              const SizedBox(width: 10),
-
-              ?action,
-            ],
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+      child: Row(
+        children: [
+          PhotoWidget(
+            isNetworkImage: isNetworkPhoto,
+            pathToImage: pathToPhoto,
+            errorIconData: errorPhoto,
           ),
-        ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                if (subtitle != null) subtitle!,
+              ],
+            ),
+          ),
+          const SizedBox(width: 10),
+          PopupMenuButtonWidget(onTaps: onTaps, icons: icons, texts: texts),
+        ],
       ),
     );
   }

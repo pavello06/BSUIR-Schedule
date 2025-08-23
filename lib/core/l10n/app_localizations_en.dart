@@ -14,6 +14,70 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String schedule_weekNumber(Object number) {
+    return '$number week';
+  }
+
+  @override
+  String get schedule_info => 'Information';
+
+  @override
+  String schedule_faculty(Object faculty) {
+    return 'Faculty: $faculty';
+  }
+
+  @override
+  String schedule_speciality(Object speciality) {
+    return 'Speciality: $speciality';
+  }
+
+  @override
+  String schedule_course(Object course) {
+    return 'Course: $course';
+  }
+
+  @override
+  String schedule_educationForm(Object educationForm) {
+    return 'Education form: $educationForm';
+  }
+
+  @override
+  String schedule_specialityCode(Object specialityCode) {
+    return 'Speciality code: $specialityCode';
+  }
+
+  @override
+  String schedule_termExist(Object endDate, Object startDate) {
+    return 'Semester: from $startDate to $endDate';
+  }
+
+  @override
+  String schedule_sessionExist(Object endDate, Object startDate) {
+    return 'Session: from $startDate to $endDate';
+  }
+
+  @override
+  String get schedule_examsExist => 'Exams: added';
+
+  @override
+  String get schedule_examsNotExist => 'Exams: not added';
+
+  @override
+  String schedule_degree(Object degree) {
+    return 'Degree: $degree';
+  }
+
+  @override
+  String schedule_rank(Object rank) {
+    return 'Rank: $rank';
+  }
+
+  @override
+  String schedule_email(Object email) {
+    return 'Email: $email';
+  }
+
+  @override
   String get mySchedules => 'My schedules';
 
   @override

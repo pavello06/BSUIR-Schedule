@@ -104,6 +104,90 @@ abstract class AppLocalizations {
   /// **'{number} course'**
   String courseNumber(Object number);
 
+  /// No description provided for @schedule_weekNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'{number} week'**
+  String schedule_weekNumber(Object number);
+
+  /// No description provided for @schedule_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get schedule_info;
+
+  /// No description provided for @schedule_faculty.
+  ///
+  /// In en, this message translates to:
+  /// **'Faculty: {faculty}'**
+  String schedule_faculty(Object faculty);
+
+  /// No description provided for @schedule_speciality.
+  ///
+  /// In en, this message translates to:
+  /// **'Speciality: {speciality}'**
+  String schedule_speciality(Object speciality);
+
+  /// No description provided for @schedule_course.
+  ///
+  /// In en, this message translates to:
+  /// **'Course: {course}'**
+  String schedule_course(Object course);
+
+  /// No description provided for @schedule_educationForm.
+  ///
+  /// In en, this message translates to:
+  /// **'Education form: {educationForm}'**
+  String schedule_educationForm(Object educationForm);
+
+  /// No description provided for @schedule_specialityCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Speciality code: {specialityCode}'**
+  String schedule_specialityCode(Object specialityCode);
+
+  /// No description provided for @schedule_termExist.
+  ///
+  /// In en, this message translates to:
+  /// **'Semester: from {startDate} to {endDate}'**
+  String schedule_termExist(Object endDate, Object startDate);
+
+  /// No description provided for @schedule_sessionExist.
+  ///
+  /// In en, this message translates to:
+  /// **'Session: from {startDate} to {endDate}'**
+  String schedule_sessionExist(Object endDate, Object startDate);
+
+  /// No description provided for @schedule_examsExist.
+  ///
+  /// In en, this message translates to:
+  /// **'Exams: added'**
+  String get schedule_examsExist;
+
+  /// No description provided for @schedule_examsNotExist.
+  ///
+  /// In en, this message translates to:
+  /// **'Exams: not added'**
+  String get schedule_examsNotExist;
+
+  /// No description provided for @schedule_degree.
+  ///
+  /// In en, this message translates to:
+  /// **'Degree: {degree}'**
+  String schedule_degree(Object degree);
+
+  /// No description provided for @schedule_rank.
+  ///
+  /// In en, this message translates to:
+  /// **'Rank: {rank}'**
+  String schedule_rank(Object rank);
+
+  /// No description provided for @schedule_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email: {email}'**
+  String schedule_email(Object email);
+
   /// No description provided for @mySchedules.
   ///
   /// In en, this message translates to:

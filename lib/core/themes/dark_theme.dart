@@ -15,6 +15,7 @@ class DarkTheme implements AppTheme {
       backgroundColor: primaryColor,
       foregroundColor: AppColors.foregroundColor,
     ),
-    cardTheme: CardThemeData(color: AppColors.darkGrey)
+    cardTheme: CardThemeData(color: AppColors.darkGrey),
+    popupMenuTheme: PopupMenuThemeData(iconColor: AppColors.white),
   );
 }

@@ -16,5 +16,6 @@ class LightTheme implements AppTheme {
       foregroundColor: AppColors.foregroundColor,
     ),
     cardTheme: CardThemeData(color: AppColors.lightGrey),
+    popupMenuTheme: PopupMenuThemeData(iconColor: AppColors.white)
   );
 }

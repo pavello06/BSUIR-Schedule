@@ -1,8 +1,27 @@
 {
   "courseNumber": "{number} course",
 
+
+  "schedule_weekNumber": "{number} week",
+
+  "schedule_info": "Information",
+  "schedule_faculty": "Faculty: {faculty}",
+  "schedule_speciality": "Speciality: {speciality}",
+  "schedule_course": "Course: {course}",
+  "schedule_educationForm": "Education form: {educationForm}",
+  "schedule_specialityCode": "Speciality code: {specialityCode}",
+  "schedule_termExist": "Semester: from {startDate} to {endDate}",
+  "schedule_sessionExist": "Session: from {startDate} to {endDate}",
+  "schedule_examsExist": "Exams: added",
+  "schedule_examsNotExist": "Exams: not added",
+  "schedule_degree": "Degree: {degree}",
+  "schedule_rank": "Rank: {rank}",
+  "schedule_email": "Email: {email}",
+
+
   "mySchedules": "My schedules",
   "savedSchedulesEmpty": "You haven't added any schedules yet",
+
 
   "addingSchedule": "Adding a schedule",
   "groups": "Groups",

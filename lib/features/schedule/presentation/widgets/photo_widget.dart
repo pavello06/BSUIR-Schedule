@@ -9,23 +9,23 @@ import '../../../../core/themes/app_colors.dart';
 class PhotoWidget extends StatelessWidget {
   const PhotoWidget({
     super.key,
-    required this.isNetworkPhoto,
-    required this.pathToPhoto,
-    required this.errorPhoto,
+    required this.isNetworkImage,
+    required this.pathToImage,
+    required this.errorIconData,
   });
 
-  final bool isNetworkPhoto;
-  final String pathToPhoto;
-  final IconData errorPhoto;
+  final bool isNetworkImage;
+  final String pathToImage;
+  final IconData errorIconData;
 
   @override
   Widget build(BuildContext context) {
-    return ClipOval(child: isNetworkPhoto ? getNetworkPhoto(context) : getFilePhoto(context));
+    return ClipOval(child: isNetworkImage ? getNetworkPhoto(context) : getFilePhoto(context));
   }
 
   Widget getNetworkPhoto(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: pathToPhoto,
+      imageUrl: pathToImage,
       errorWidget: (context, url, error) => getErrorPhoto(context),
       width: 60,
       height: 60,
@@ -35,7 +35,7 @@ class PhotoWidget extends StatelessWidget {
 
   Widget getFilePhoto(BuildContext context) {
     return Image.file(
-      File(pathToPhoto),
+      File(pathToImage),
       errorBuilder: (context, url, error) => getErrorPhoto(context),
       width: 60,
       height: 60,
@@ -48,7 +48,7 @@ class PhotoWidget extends StatelessWidget {
       color: context.theme.primaryColor,
       width: 60,
       height: 60,
-      child: Icon(errorPhoto, size: 35, color: AppColors.foregroundColor),
+      child: Icon(errorIconData, size: 35, color: AppColors.foregroundColor),
     );
   }
 }
