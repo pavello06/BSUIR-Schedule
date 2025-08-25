@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/errors/failures.dart';
-import '../../../../core/usecases/usecase.dart';
-import '../entities/schedule/saved_schedule.dart';
-import '../entities/schedule/schedule.dart';
-import '../repositories/schedule_repository.dart';
+import '../../../../../core/errors/failures.dart';
+import '../../../../../core/usecases/usecase.dart';
+import '../../entities/schedule/saved_schedule.dart';
+import '../../entities/schedule/schedule.dart';
+import '../../repositories/schedule_repository.dart';
 
 class GetActiveSchedule extends UseCase<Schedule?, NoParams> {
   GetActiveSchedule({required this.repository});

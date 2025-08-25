@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/errors/failures.dart';
-import '../../../../core/usecases/usecase.dart';
-import '../entities/group/group.dart';
-import '../repositories/schedule_repository.dart';
+import '../../../../../core/errors/failures.dart';
+import '../../../../../core/usecases/usecase.dart';
+import '../../entities/group/group.dart';
+import '../../repositories/schedule_repository.dart';
 
 class SearchGroups extends UseCase<List<Group>, SearchGroupsParams> {
   SearchGroups({required this.repository});

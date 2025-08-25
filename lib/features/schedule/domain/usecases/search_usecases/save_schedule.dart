@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/errors/failures.dart';
-import '../../../../core/usecases/usecase.dart';
-import '../entities/employee/employee.dart';
-import '../entities/group/group.dart';
-import '../entities/schedule/saved_schedule.dart';
-import '../repositories/schedule_repository.dart';
+import '../../../../../core/errors/failures.dart';
+import '../../../../../core/usecases/usecase.dart';
+import '../../entities/employee/employee.dart';
+import '../../entities/group/group.dart';
+import '../../entities/schedule/saved_schedule.dart';
+import '../../repositories/schedule_repository.dart';
 
 class SaveSchedule extends UseCase<void, SaveScheduleParams> {
   SaveSchedule({required this.repository});

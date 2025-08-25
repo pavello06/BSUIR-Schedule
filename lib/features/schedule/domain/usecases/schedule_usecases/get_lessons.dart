@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/errors/failures.dart';
-import '../../../../core/usecases/usecase.dart';
-import '../../../../core/utils/date_util.dart';
-import '../entities/current_week.dart';
-import '../entities/schedule/schedule.dart';
-import '../entities/study_day.dart';
-import '../entities/subject/subject.dart';
-import '../repositories/schedule_repository.dart';
+import '../../../../../core/errors/failures.dart';
+import '../../../../../core/usecases/usecase.dart';
+import '../../../../../core/utils/date_util.dart';
+import '../../entities/current_week.dart';
+import '../../entities/schedule/schedule.dart';
+import '../../entities/study_day.dart';
+import '../../entities/subject/subject.dart';
+import '../../repositories/schedule_repository.dart';
 
 class GetLessons extends UseCase<List<StudyDay>, GetLessonsParams> {
   GetLessons({required this.repository});
