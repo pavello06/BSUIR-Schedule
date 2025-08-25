@@ -18,6 +18,8 @@
   "schedule_rank": "Ранг: {rank}",
   "schedule_email": "Email: {email}",
 
+  "schedules_numSubGroup": "подгр. {number}",
+
 
   "mySchedules": "Мои расписания",
   "savedSchedulesEmpty": "Вы не добавили ещё ни одного расписания",

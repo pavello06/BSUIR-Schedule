@@ -78,6 +78,11 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String schedules_numSubGroup(Object number) {
+    return 'подгр. $number';
+  }
+
+  @override
   String get mySchedules => 'Мои расписания';
 
   @override

@@ -188,6 +188,12 @@ abstract class AppLocalizations {
   /// **'Email: {email}'**
   String schedule_email(Object email);
 
+  /// No description provided for @schedules_numSubGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'subgr. {number}'**
+  String schedules_numSubGroup(Object number);
+
   /// No description provided for @mySchedules.
   ///
   /// In en, this message translates to:

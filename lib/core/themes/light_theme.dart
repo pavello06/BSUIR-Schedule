@@ -10,6 +10,7 @@ class LightTheme implements AppTheme {
   @override
   ThemeData get themeData => ThemeData.light().copyWith(
     primaryColor: primaryColor,
+
     scaffoldBackgroundColor: AppColors.lightBackgroundColor,
     appBarTheme: AppBarTheme(
       backgroundColor: primaryColor,

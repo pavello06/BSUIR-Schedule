@@ -15,4 +15,7 @@ class AppColors {
   static const red = Color(0xffcf3011);
   static const green = Color(0xff44cf11);
   static const white = Color(0xffffffff);
+  static const lecture = Color(0xff02e324);
+  static const practical = Color(0xffd6de00);
+  static const laboratory = Color(0xffcc0704);
 }

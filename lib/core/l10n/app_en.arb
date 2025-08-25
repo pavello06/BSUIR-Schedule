@@ -18,6 +18,8 @@
   "schedule_rank": "Rank: {rank}",
   "schedule_email": "Email: {email}",
 
+  "schedules_numSubGroup": "subgr. {number}",
+
 
   "mySchedules": "My schedules",
   "savedSchedulesEmpty": "You haven't added any schedules yet",

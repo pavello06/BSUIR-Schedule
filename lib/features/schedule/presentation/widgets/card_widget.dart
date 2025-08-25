@@ -49,7 +49,8 @@ class CardWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          PopupMenuButtonWidget(onTaps: onTaps, icons: icons, texts: texts),
+          if (onTaps.isNotEmpty)
+            PopupMenuButtonWidget(onTaps: onTaps, icons: icons, texts: texts),
         ],
       ),
     );

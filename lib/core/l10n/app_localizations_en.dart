@@ -78,6 +78,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String schedules_numSubGroup(Object number) {
+    return 'subgr. $number';
+  }
+
+  @override
   String get mySchedules => 'My schedules';
 
   @override

@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/usecases/usecase.dart';
-import '../../../domain/usecases/get_active_schedule.dart';
-import '../../../domain/usecases/get_current_week.dart';
-import '../../../domain/usecases/get_lessons.dart';
+import '../../../domain/usecases/schedule_usecases/get_active_schedule.dart';
+import '../../../domain/usecases/schedule_usecases/get_current_week.dart';
+import '../../../domain/usecases/schedule_usecases/get_lessons.dart';
 import 'schedule_event.dart';
 import 'schedule_state.dart';
 
@@ -27,41 +27,46 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
 
     final currentWeekOrFailure = await getCurrentWeek(NoParams());
 
-    currentWeekOrFailure.fold(
+    await currentWeekOrFailure.fold(
       (failure) {
-        emit(ErrorState());
+        emit(ErrorState(hasData: false));
       },
       (currentWeek) async {
-        emit(LoadingState(currentWeek: currentWeek));
+        emit(LoadingState(currentWeek: currentWeek, hasData: false));
 
         final scheduleOrFailure = await getActiveSchedule(NoParams());
 
-        scheduleOrFailure.fold(
+        await scheduleOrFailure.fold(
           (failure) {
-            emit(ErrorState());
+            emit(ErrorState.fromState(state: state as WithScheduleState));
           },
           (schedule) async {
             if (schedule == null) {
               emit(EmptyState(currentWeek: currentWeek));
-
               return;
             }
 
-            final lessonDaysOrFailure = await getLessons(
-              GetLessonsParams(schedule: schedule, currentWeek: currentWeek),
-            );
-
-            emit(
-              lessonDaysOrFailure.fold(
-                (failure) => ErrorState(),
-                (lessonDays) => LoadedState(
-                  currentWeek: currentWeek,
-                  schedule: schedule,
-                  lessonDays: lessonDays,
-                  examDays: [],
-                ),
-              ),
-            );
+            // final lessonDaysOrFailure = await getLessons(
+            //   GetLessonsParams(schedule: schedule, currentWeek: currentWeek),
+            // );
+            //
+            // emit(
+            //   lessonDaysOrFailure.fold(
+            //     (failure) => ErrorState.fromState(state: state as WithScheduleState),
+            //     (lessonDays) => LoadedState(
+            //       currentWeek: currentWeek,
+            //       schedule: schedule,
+            //       lessonDays: lessonDays,
+            //       examDays: [],
+            //     ),
+            //   ),
+            // );
+            emit(LoadedState(
+              currentWeek: currentWeek,
+              schedule: schedule,
+              lessonDays: [],
+              examDays: [],
+            ),);
           },
         );
       },

@@ -23,17 +23,19 @@ abstract class WithCurrentWeekState extends ScheduleState {
 abstract class WithScheduleState extends WithCurrentWeekState {
   const WithScheduleState({
     super.currentWeek,
+    required this.hasData,
     this.schedule,
     this.lessonDays,
     this.examDays,
   });
 
+  final bool hasData;
   final Schedule? schedule;
   final List<StudyDay>? lessonDays;
   final List<StudyDay>? examDays;
 
   @override
-  List<Object?> get props => [...super.props, schedule, lessonDays, examDays];
+  List<Object?> get props => [...super.props, hasData, schedule, lessonDays, examDays];
 }
 
 class InitialState extends ScheduleState {}
@@ -41,6 +43,7 @@ class InitialState extends ScheduleState {}
 class LoadingState extends WithScheduleState {
   const LoadingState({
     super.currentWeek,
+    required super.hasData,
     super.schedule,
     super.lessonDays,
     super.examDays,
@@ -49,6 +52,7 @@ class LoadingState extends WithScheduleState {
   LoadingState.fromState({WithScheduleState? state})
     : super(
         currentWeek: state?.currentWeek,
+        hasData: state?.hasData ?? false,
         schedule: state?.schedule,
         lessonDays: state?.lessonDays,
         examDays: state?.examDays,
@@ -58,6 +62,7 @@ class LoadingState extends WithScheduleState {
 class LoadedState extends WithScheduleState {
   const LoadedState({
     required super.currentWeek,
+    super.hasData = true,
     required super.schedule,
     required super.lessonDays,
     required super.examDays,
@@ -66,6 +71,7 @@ class LoadedState extends WithScheduleState {
   LoadedState.fromState({required WithScheduleState state})
     : super(
         currentWeek: state.currentWeek,
+        hasData: true,
         schedule: state.schedule,
         lessonDays: state.lessonDays,
         examDays: state.examDays,
@@ -76,4 +82,21 @@ class EmptyState extends WithCurrentWeekState {
   const EmptyState({required super.currentWeek});
 }
 
-class ErrorState extends ScheduleState {}
+class ErrorState extends WithScheduleState {
+  const ErrorState({
+    super.currentWeek,
+    required super.hasData,
+    super.schedule,
+    super.lessonDays,
+    super.examDays,
+  });
+
+  ErrorState.fromState({WithScheduleState? state})
+    : super(
+        currentWeek: state?.currentWeek,
+        hasData: state?.hasData ?? false,
+        schedule: state?.schedule,
+        lessonDays: state?.lessonDays,
+        examDays: state?.examDays,
+      );
+}
